@@ -21,10 +21,23 @@ public class Global : MonoBehaviour
         new float[3] { 0, 0, -90 }
     };
 
+    public bool uneven = false;
+
+    public float[][] lastValuesUneven  = new float[][] {
+        new float[3] { 0, 0, -90 },
+        new float[3] { 0, 0, -90 },
+        new float[3] { 0, 0, -90 },
+        new float[3] { 0, 0, -90 },
+        new float[3] { 0, 0, -90 },
+        new float[3] { 0, 0, -90 }
+    };
+
+
 
     public float[] platformAngles = { 0, 0, 0 };
     public float[] platformPosition = { 0, 0, 0 };
 
+    public bool[] legsContact = { false, false, false, false, false, false };
 
     public GameObject tibias;
     public GameObject femurs;
@@ -71,6 +84,13 @@ public class Global : MonoBehaviour
         coxa = coxas.GetComponent<JointCoxaMovement>();
         femur = femurs.GetComponent<JointFemurMovement>();
         tibia = tibias.GetComponent<JointTibiaMovement>();
+    }
+
+
+    public void SetLegsContact(int legNumber, bool contact)
+    {
+        legsContact[legNumber] = contact;
+
     }
 
 
@@ -221,22 +241,40 @@ public class Global : MonoBehaviour
 
     public void Walk(float direction)
     {
-        float[] timers = { 0.001f, 1, 1, 1, 1};
+
+        if (!uneven)
+        {
+            WalkEven(direction);
+
+        }
+        else
+        {
+            WalkUneven(direction);
+
+        }
+    }
+
+
+    private void WalkUneven(float direction)
+    {
+        float[] timers = { 0.001f, 1, 2, 1, 2 };
 
         for (int i = 0; i < 6; i++)
         {
-            float[] increments = robotMove.GetWalkingIncrements(80f, 0, direction, i);
+            float[] increments = robotMove.GetWalkingIncrements(stepDistance, 0, direction, i);
             float[][] cartesian;
-            if (i%2 == 0)
+            if (i % 2 == 0)
             {
-                cartesian = robotMove.GetWalkingCycle(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, increments[0], increments[1], true);
+                cartesian = robotMove.GetWalkingCycleUneven(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, increments[0], increments[1], true);
             }
             else
             {
-                cartesian = robotMove.GetWalkingCycle(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, increments[0], increments[1], false);
+                cartesian = robotMove.GetWalkingCycleUneven(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, increments[0], increments[1], false);
             }
-             
-            float[][] jointsEven = robotMove.GetJointsWalkingCycle(cartesian[0], cartesian[1], cartesian[2]);
+
+            float[][] jointsEven = robotMove.GetJointsWalkingCycleUneven(cartesian[0], cartesian[1], cartesian[2], i);
+
+
 
             coxa.SetTrajectoryCoxa(jointsEven[0], timers, i);
             femur.SetTrajectoryFemur(jointsEven[1], timers, i);
@@ -244,6 +282,33 @@ public class Global : MonoBehaviour
         }
     }
 
+
+    private void WalkEven(float direction)
+    {
+        float[] timers = { 0.001f, 1, 1, 1, 1 };
+
+        for (int i = 0; i < 6; i++)
+        {
+            float[] increments = robotMove.GetWalkingIncrements(stepDistance, 0, direction, i);
+            float[][] cartesian;
+            if (i % 2 == 0)
+            {
+                cartesian = robotMove.GetWalkingCycle(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, increments[0], increments[1], true);
+            }
+            else
+            {
+                cartesian = robotMove.GetWalkingCycle(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, increments[0], increments[1], false);
+            }
+
+            float[][] jointsEven = robotMove.GetJointsWalkingCycle(cartesian[0], cartesian[1], cartesian[2]);
+
+
+
+            coxa.SetTrajectoryCoxa(jointsEven[0], timers, i);
+            femur.SetTrajectoryFemur(jointsEven[1], timers, i);
+            tibia.SetTrajectoryTibia(jointsEven[2], timers, i);
+        }
+    }
 
     public void SetPlatformLocation()
     {
@@ -293,6 +358,7 @@ public class Global : MonoBehaviour
             {
                 cartesian = robotMove.GetRotateCycle(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, direction, rotateStep, false);
             }
+
             float[][] jointsEven = robotMove.GetJointsWalkingCycle(cartesian[0], cartesian[1], cartesian[2]);
 
             coxa.SetTrajectoryCoxa(jointsEven[0], timers, i);

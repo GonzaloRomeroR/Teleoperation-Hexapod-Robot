@@ -53,7 +53,6 @@ public class RobotMovement : MonoBehaviour
     public float[][] GetWalkingCycle(float x0, float y0, float z0, float h, float dx, float dy, bool even)
     {
 
-
         if (even == true)
         {
             float[] lx = { x0, x0 + dx / 4, x0 + dx / 2, x0 + dx / 4, x0 };
@@ -70,6 +69,31 @@ public class RobotMovement : MonoBehaviour
         }
 
     }
+
+
+
+    public float[][] GetWalkingCycleUneven(float x0, float y0, float z0, float h, float dx, float dy, bool even)
+    {
+
+        if (even == true)
+        {
+            float[] lx = { x0, x0 + dx / 2, x0 + dx / 2, x0, x0 };
+            float[] ly = { y0, y0 + dy / 2, y0 + dy / 2, y0, y0 };
+            float[] lz = { z0, z0 + h, z0 - h / 3 , z0, z0 };
+            return new float[][] { lx, ly, lz };
+        }
+        else
+        {
+            float[] lx = { x0, x0 - dx / 2, x0 - dx / 2, x0, x0 };
+            float[] ly = { y0, y0 - dy / 2, y0 - dy / 2, y0, y0 };
+            float[] lz = { z0, z0, z0, z0 + h, z0 - h / 3 };
+            return new float[][] { lx, ly, lz };
+        }
+
+    }
+
+
+
 
     public float[][] GetRotateCycle(float x0, float y0, float z0, float h, bool direction, float da, bool even)
     {
@@ -125,6 +149,39 @@ public class RobotMovement : MonoBehaviour
         }
 
         return new float[][] { theta1, theta2, theta3};
+
+    }
+
+
+    public float[][] GetJointsWalkingCycleUneven(float[] lx, float[] ly, float[] lz, int leg)
+    {
+
+        float[][] trajectories = new float[lx.Length][];
+
+        for (int i = 0; i < lx.Length; i++)
+        {
+
+            float[] angles = robotMath.LegInverseKinematics(lx[i], ly[i], lz[i], l1, l2, l3);
+
+            trajectories[i] = angles;
+        }
+
+        float[] theta1 = new float[lx.Length];
+        float[] theta2 = new float[lx.Length];
+        float[] theta3 = new float[lx.Length];
+
+        for (int i = 0; i < lx.Length; i++)
+        {
+            theta1[i] = trajectories[i][0];
+            theta2[i] = trajectories[i][1];
+            theta3[i] = trajectories[i][2];
+        }
+
+        theta1[0] = Global.Instance.legs[leg][0];
+        theta2[0] = Global.Instance.legs[leg][1];
+        theta3[0] = Global.Instance.legs[leg][2];
+
+        return new float[][] { theta1, theta2, theta3 };
 
     }
 

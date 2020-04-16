@@ -9,6 +9,7 @@ public class Selector : MonoBehaviour
     GameObject _toggleJoystick;
     GameObject _toggleSet;
     GameObject _toggleMove;
+    GameObject _toggleUneven;
 
     GameObject _menuShow;
     GameObject _joystick;
@@ -24,6 +25,7 @@ public class Selector : MonoBehaviour
         _toggleJoystick = GameObject.Find("ToggleJoystick");
         _toggleSet = GameObject.Find("ToggleSet");
         _toggleMove = GameObject.Find("ToggleMove");
+        _toggleUneven = GameObject.Find("ToggleUneven");
 
         _menuShow = GameObject.Find("MenuShow");
         _joystick = GameObject.Find("JoystickCam");
@@ -73,6 +75,19 @@ public class Selector : MonoBehaviour
             _menuSet.SetActive(true);
         }
 
+    }
+
+    public void OnToggle_Uneven()
+    {
+        if (_toggleUneven.GetComponent<Toggle>().isOn == true)
+        {
+            Global.Instance.uneven = true;
+        }
+        else
+        {
+            Global.Instance.uneven = false;
+
+        }
     }
 
     public void OnToggle_Move()

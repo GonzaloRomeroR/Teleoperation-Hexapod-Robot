@@ -79,7 +79,20 @@ public class JointTibiaMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
+        if (!Global.Instance.uneven)
+        {
+            MoveTibia();
+        }
+        else
+        {
+            MoveTibiaUneven();
+        }
 
+    }
+
+
+    private void MoveTibia()
+    {
         if (_counter[_legNumber] < _values[_legNumber].Length)
         {
             if (_counter[_legNumber] == 0)
@@ -113,8 +126,76 @@ public class JointTibiaMovement : MonoBehaviour
             Global.Instance.legs[_legNumber][2] = _value[_legNumber];
         }
     }
-        public void SetTrajectoryTibia(float[] values, float[] times, int leg)
+
+    private void MoveTibiaUneven()
+    {
+        if (_counter[_legNumber] < _values[_legNumber].Length)
         {
+            if (_counter[_legNumber] == 0)
+            {
+                _minimum[_legNumber] = _lastValues[_legNumber];
+            }
+            else
+            {
+                _minimum[_legNumber] = _values[_legNumber][_counter[_legNumber] - 1];
+            }
+
+            _maximum[_legNumber] = _values[_legNumber][_counter[_legNumber]];
+
+            _value[_legNumber] = Mathf.Lerp(_minimum[_legNumber], _maximum[_legNumber], _t[_legNumber]);
+
+            _t[_legNumber] += 1f / _times[_legNumber][_counter[_legNumber]] * Time.fixedDeltaTime;
+
+
+
+            if (_t[_legNumber] > 1.0f)
+            {
+
+                if (_legNumber % 2 == 0 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 2)
+                {
+                    _values[_legNumber][_counter[_legNumber]] = Global.Instance.legs[_legNumber][2];
+                }
+
+                if (_legNumber % 2 == 1 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 4)
+                {
+                    _values[_legNumber][_counter[_legNumber]] = Global.Instance.legs[_legNumber][2];
+                }
+
+
+
+                _counter[_legNumber]++;
+
+                if (_counter[_legNumber] == _values[_legNumber].Length)
+                {
+                    _finished[_legNumber] = true;
+                }
+
+                _t[_legNumber] = 0.0f;
+
+                return;
+            }
+
+            if (_legNumber%2 == 0 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 2)
+            {
+                return;
+            }
+
+            if (_legNumber % 2 == 1 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 4)
+            {
+                return;
+            }
+
+
+            Global.Instance.legs[_legNumber][2] = _value[_legNumber];
+        }
+    }
+
+
+
+
+
+    public void SetTrajectoryTibia(float[] values, float[] times, int leg)
+    {
     
             _lastValues[leg] = Global.Instance.legs[leg][2];
             _values[leg] = values;
@@ -124,7 +205,7 @@ public class JointTibiaMovement : MonoBehaviour
             _t[leg] = 0.0f;
             
 
-        }
     }
+}
 
 

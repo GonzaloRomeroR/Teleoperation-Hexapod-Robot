@@ -80,7 +80,21 @@ public class JointFemurMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!Global.Instance.uneven)
+        {
+            MoveFemur();
+        }
+        else
+        {
+            MoveFemurUneven();
+        }
+        
 
+    }
+
+
+    private void MoveFemur()
+    {
 
         if (_counter[_legNumber] < _values[_legNumber].Length)
         {
@@ -113,8 +127,71 @@ public class JointFemurMovement : MonoBehaviour
             Global.Instance.legs[_legNumber][1] = _value[_legNumber];
 
         }
-
     }
+
+
+
+    private void MoveFemurUneven()
+    {
+
+        if (_counter[_legNumber] < _values[_legNumber].Length)
+        {
+            if (_counter[_legNumber] == 0)
+            {
+                _minimum[_legNumber] = _lastValues[_legNumber];
+            }
+            else
+            {
+                _minimum[_legNumber] = _values[_legNumber][_counter[_legNumber] - 1];
+            }
+
+            _maximum[_legNumber] = _values[_legNumber][_counter[_legNumber]];
+
+            _value[_legNumber] = Mathf.Lerp(_minimum[_legNumber], _maximum[_legNumber], _t[_legNumber]);
+
+            _t[_legNumber] += 1f / _times[_legNumber][_counter[_legNumber]] * Time.fixedDeltaTime;
+
+
+            if (_t[_legNumber] > 1.0f)
+            {
+
+                if (_legNumber % 2 == 0 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 2)
+                {
+                    _values[_legNumber][_counter[_legNumber]] = Global.Instance.legs[_legNumber][1];
+                }
+
+                if (_legNumber % 2 == 1 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 4)
+                {
+                    _values[_legNumber][_counter[_legNumber]] = Global.Instance.legs[_legNumber][1];
+                }
+
+                _counter[_legNumber]++;
+                if (_counter[_legNumber] == _values[_legNumber].Length)
+                {
+                    _finished[_legNumber] = true;
+                }
+                _t[_legNumber] = 0.0f;
+
+                return;
+            }
+
+            if (_legNumber % 2 == 0 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 2)
+            {
+                return;
+            }
+
+            if (_legNumber % 2 == 1 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 4)
+            {
+                return;
+            }
+
+            Global.Instance.legs[_legNumber][1] = _value[_legNumber];
+
+        }
+    }
+
+
+
     public void SetTrajectoryFemur(float[] values, float[] times, int leg)
     {
 
