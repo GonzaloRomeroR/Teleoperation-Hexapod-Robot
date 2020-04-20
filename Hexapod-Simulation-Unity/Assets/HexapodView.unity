@@ -3644,7 +3644,7 @@ GameObject:
   - component: {fileID: 1637317597}
   - component: {fileID: 1637317596}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: RobotInferior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5033,6 +5033,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6618550152375239329, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.9999962
+      objectReference: {fileID: 0}
     - target: {fileID: 6618550152378295970, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_textAlignment
       value: 65535
@@ -5421,6 +5425,10 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6618550152666110474, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.9999962
+      objectReference: {fileID: 0}
     - target: {fileID: 6618550152672308567, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_textAlignment
       value: 65535
@@ -5709,6 +5717,10 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6618550152886710447, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.9999962
+      objectReference: {fileID: 0}
     - target: {fileID: 6618550152888457414, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_textAlignment
       value: 65535
@@ -5991,7 +6003,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6618550153158943303, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.99990845
+      value: -0.9998932
       objectReference: {fileID: 0}
     - target: {fileID: 6618550153163785473, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -6028,6 +6040,10 @@ PrefabInstance:
     - target: {fileID: 6618550153179711680, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_textAlignment
       value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 6618550153192350344, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.9999962
       objectReference: {fileID: 0}
     - target: {fileID: 6618550153193089280, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_textAlignment
@@ -6443,7 +6459,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6618550153459700533, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.9997864
+      value: -0.9998169
       objectReference: {fileID: 0}
     - target: {fileID: 6618550153478395791, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_textAlignment
@@ -6620,6 +6636,10 @@ PrefabInstance:
     - target: {fileID: 6618550153577091062, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6618550153582922171, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.9999962
       objectReference: {fileID: 0}
     - target: {fileID: 6618550153586272600, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -7244,6 +7264,10 @@ PrefabInstance:
     - target: {fileID: 6618550154096872336, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Global, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6618550154098211580, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.9999962
       objectReference: {fileID: 0}
     - target: {fileID: 6618550154099890645, guid: 802c3e566151e754bab4619ec3d681e6, type: 3}
       propertyPath: m_HorizontalAlignment
