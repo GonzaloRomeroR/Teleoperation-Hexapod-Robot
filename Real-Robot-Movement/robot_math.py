@@ -20,4 +20,4 @@ class RobotMath():
         theta2 = theta2 * 180.0 / math.pi;
         theta3 = theta3 * 180.0 / math.pi;
 
-        return theta1, theta2, theta3
+        return [theta1, theta2, theta3]

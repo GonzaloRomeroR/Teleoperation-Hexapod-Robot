@@ -21,7 +21,7 @@ def main():
         gl.timers[i].start()
 
 
-    st.ServoSetter(gl).start();
+    st.ServoSetter(gl).start()
 
     GUI.runGUI(gl)
 

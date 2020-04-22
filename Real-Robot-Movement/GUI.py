@@ -10,6 +10,7 @@ class GUI():
         self.gl = gl
         self.lbl_joint_variables = []
         self.txt_joint_variables = []
+        self.txt_platform_variables = []
         self.art_number = 18
         self.window = window
         self.show_interface()
@@ -19,8 +20,16 @@ class GUI():
 
         row, col = self.get_list_index(joint_number)
         value = self.txt_joint_variables[joint_number].get()
+        #if float(value) < 180 and float(value) > 0:
         self.gl.set_joint_trajectory([float(value)], [1.0], row, col)
 
+    def platform_action(self, plat_var_number):
+        
+        print(plat_var_number)
+        value = self.txt_platform_variables[plat_var_number].get()
+        print(value)
+
+        
 
     def show_interface(self):
 
@@ -34,9 +43,7 @@ class GUI():
         row_number = self.create_joints_titles(row_number)
         row_number = self.create_joints_inputs(row_number)
     
-    def create_platform_inputs(self, row_number):
-        
-
+    def create_platform_inputs(self, row_number):     
 
         lbl_platform = Label(self.window, text="Platform", font=("Arial Bold", 15))
         lbl_platform.grid(sticky="W", column=0, row=row_number)
@@ -52,6 +59,43 @@ class GUI():
         lbl_z = Label(self.window, text="Z", font=("Arial", 12))
         lbl_z.grid(column=5, row=row_number)
         row_number = row_number + 1
+
+        counter_column = 1
+        for i in range(3):
+
+            self.txt_platform_variables.append(Entry(self.window, width=10))
+            self.txt_platform_variables[i].grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+
+            btn = Button(self.window, text="Update", command=partial(self.platform_action, i))
+            btn.grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+        row_number = row_number + 1
+
+        
+        lbl_x = Label(self.window, text="Roll", font=("Arial", 12))
+        lbl_x.grid(column=1, row=row_number)
+
+        lbl_y = Label(self.window, text="Pitch", font=("Arial", 12))
+        lbl_y.grid(column=3, row=row_number)
+
+        lbl_z = Label(self.window, text="Yaw", font=("Arial", 12))
+        lbl_z.grid(column=5, row=row_number)
+        row_number = row_number + 1
+
+        
+        counter_column = 1
+        for i in range(3):
+
+            self.txt_platform_variables.append(Entry(self.window, width=10))
+            self.txt_platform_variables[i + 3].grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+
+            btn = Button(self.window, text="Update", command=partial(self.platform_action, i + 3))
+            btn.grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+        row_number = row_number + 1
+
 
 
 
@@ -123,5 +167,5 @@ def runGUI(gl):
     window = Tk()
     window.title("Hexapod View")
     GUI(window, gl)
-    window.geometry('500x400')
+    window.geometry('600x500')
     window.mainloop()

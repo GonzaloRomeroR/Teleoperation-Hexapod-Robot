@@ -1,36 +1,64 @@
 import math
+from robot_math import RobotMath
 
-def leg_inverse_kinematics(x, y, z, l1, l2, l3):
+robotMath = RobotMath()
 
-    theta1 = math.atan2(y, x)
+class RobotMovement():
 
-    x0 = x - l1 * math.cos(theta1)
-    y0 = y - l1 * math.sin(theta1)
+    def get_walking_increments(self, dL, alpha, direction, leg):
 
-    p2 = x0 ** 2 + y0 ** 2 + z ** 2
+        dX = dL * math.cos(direction)
+        dY = dL * math.sin(direction)
+        
+        dx = dX * math.cos(alpha + math.pi / 3.0 * leg) + dY * math.sin(alpha + math.pi / 3.0 * leg)
+        dy = dY * math.cos(alpha + math.pi / 3.0 * leg) - dX * math.sin(alpha + math.pi / 3.0 * leg)
 
-    theta2 = math.acos((-l3 ** 2 + l2 ** 2 + p2) / (2 * l2 * p2 ** 0.5)) + math.atan2(z, (x0 ** 2 + y0 ** 2) ** 0.5)
-
-    theta3 = - math.acos((p2 - l2 ** 2 - l3 ** 2) / (2 * l2 * l3))
-
-    theta1 = theta1 * 180.0 / math.pi;
-    theta2 = theta2 * 180.0 / math.pi;
-    theta3 = theta3 * 180.0 / math.pi;
-
-    return theta1, theta2, theta3
+        return dx, dy
 
 
+    def get_walking_cycle(self, x0, y0, z0, h, dx, dy, even):
+        if even:
+            lx = [x0, x0 + dx / 4.0, x0 + dx / 2.0, x0 + dx / 4.0, x0 ]
+            ly = [y0, y0 + dy / 4.0, y0 + dy / 2.0, y0 + dy / 4.0, y0 ]
+            lz = [z0, z0, z0, z0 + h, z0]
+            return lx, ly, lz
+        else:
+            lx = [x0, x0 - dx / 4.0, x0 - dx / 2.0, x0 - dx / 4.0, x0 ]
+            ly = [y0, y0 - dy / 4.0, y0 - dy / 2.0, y0 - dy / 4.0, y0 ]
+            lz = [z0, z0 + h, z0, z0, z0]
+            return [lx, ly, lz]
 
-l1 = 28.5
-l2 = 75.5
-l3 = 129.8
 
-print(leg_inverse_kinematics(l1 + l2 + 50 , 0, -l3 + 50, l1, l2, l3))
+    def get_joints_walking_cycle(self, lx, ly, lz, l1, l2, l3):
+        
+        trajectories = []
+        for i in range(len(lx)):
+            trajectories.append(robotMath.leg_inverse_kinematics(lx[i], ly[i], lz[i], l1, l2, l3))
+
+        theta1 = []
+        theta2 = []
+        theta3 = []
+
+        for i in range(len(lx)):
+            theta1.append(trajectories[i][0])
+            theta2.append(trajectories[i][1])
+            theta3.append(trajectories[i][2])
+        
+        return [theta1, theta2, theta3]
 
 
+robot = RobotMovement()
 
+l1 = 28.5;
+l2 = 75.5;
+l3 = 129.8;
 
-
+a = robot.get_walking_increments(10, 0, 0, 0)
+print(a)
+b = robot.get_walking_cycle(l1 + l2, 0, -l3, 40, 10, 0 , False)
+print(b)
+c = robot.get_joints_walking_cycle(b[0], b[1], b[2], l1, l2, l3)
+print(c)
 
 
 
