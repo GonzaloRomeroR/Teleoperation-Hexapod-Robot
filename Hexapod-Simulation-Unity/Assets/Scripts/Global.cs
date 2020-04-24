@@ -8,7 +8,7 @@ using TMPro;
 public class Global : MonoBehaviour
 {
 
-
+    
     public static Global Instance { get; private set; }
 
 
@@ -66,6 +66,10 @@ public class Global : MonoBehaviour
     JointFemurMovement femur;
     JointTibiaMovement tibia;
 
+
+    GameObject _wifiServer;
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -84,6 +88,8 @@ public class Global : MonoBehaviour
         coxa = coxas.GetComponent<JointCoxaMovement>();
         femur = femurs.GetComponent<JointFemurMovement>();
         tibia = tibias.GetComponent<JointTibiaMovement>();
+
+        _wifiServer = GameObject.Find("WifiServer");
     }
 
 
@@ -173,6 +179,13 @@ public class Global : MonoBehaviour
         float newJointValue = float.Parse(input.text);
 
         //legs[legNumber][jointNumber] = newJointValue;
+
+        if (_wifiServer != null)
+        {
+            string tag = "J" + legNumber.ToString() + jointNumber.ToString();
+            _wifiServer.GetComponent<WifiServer>().SendData(tag, Int32.Parse(input.text));
+        }
+
 
         if (jointNumber == 0)
         {

@@ -3,10 +3,10 @@ import time
 import GUI
 
 DEBUG = True
-TIMER = 0.0
+TIMER = 0.2
 
 MAX_FREQUENCY = 2250
-MIN_FREQUENCY = 500
+MIN_FREQUENCY = 450
 
 if DEBUG == False:
     from adafruit_servokit import ServoKit
@@ -18,7 +18,6 @@ class ServoSetter(Thread):
     def __init__(self, gl):
         Thread.__init__(self)
         self.gl = gl
-
 
         self.offset_0 = 120
         self.offset_1 = 115
@@ -37,12 +36,12 @@ class ServoSetter(Thread):
     def run(self):
         while 1:
             if DEBUG == True:
-                self.gl.walking_input(0.0)
+                #self.gl.walking_input(0.0)
                 print(self.gl.commands)
                 time.sleep(TIMER)
             
             else:
-                self.gl.walking_input(0.0)
+                #self.gl.walking_input(0.0)
                 print(self.gl.commands)
                 kit.servo[0].angle = self.gl.commands[0][0] + self.offset_0
                 kit.servo[1].angle = -self.gl.commands[0][1] + self.offset_1

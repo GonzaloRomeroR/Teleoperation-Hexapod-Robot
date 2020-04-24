@@ -5,9 +5,13 @@ import numpy as np
 import time
 import GUI
 import servo_thread as st
+from wifi import WifiClient
 
 TIMER_TIME = 0.1
 ARTICULATION_NUMBER = 18
+
+
+WIFI = True
 
 gl = Global()
 start_time = time.time()
@@ -20,10 +24,12 @@ def main():
         gl.timers.append(tm.MyTimer(stop_flag, TIMER_TIME, gl, i))
         gl.timers[i].start()
 
-
     st.ServoSetter(gl).start()
-
-    GUI.runGUI(gl)
+    
+    if WIFI == True:
+        WifiClient(gl)
+    else:
+        GUI.runGUI(gl)
 
 
 

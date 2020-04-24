@@ -10,6 +10,7 @@ public class Selector : MonoBehaviour
     GameObject _toggleSet;
     GameObject _toggleMove;
     GameObject _toggleUneven;
+    GameObject _toggleWifi;
 
     GameObject _menuShow;
     GameObject _joystick;
@@ -17,6 +18,7 @@ public class Selector : MonoBehaviour
     GameObject _joystickMove;
     GameObject _clockwiseButton;
     GameObject _anticlockwiseButton;
+    GameObject _wifiServer;
 
 
     public void Start()
@@ -26,6 +28,7 @@ public class Selector : MonoBehaviour
         _toggleSet = GameObject.Find("ToggleSet");
         _toggleMove = GameObject.Find("ToggleMove");
         _toggleUneven = GameObject.Find("ToggleUneven");
+        _toggleWifi = GameObject.Find("ToggleWifi");
 
         _menuShow = GameObject.Find("MenuShow");
         _joystick = GameObject.Find("JoystickCam");
@@ -33,11 +36,13 @@ public class Selector : MonoBehaviour
         _joystickMove = GameObject.Find("JoystickMove");
         _clockwiseButton = GameObject.Find("Clockwise");
         _anticlockwiseButton = GameObject.Find("Anticlockwise");
+        //_wifiServer = GameObject.Find("WifiServer");
 
         _menuSet.SetActive(false);
         _joystickMove.SetActive(false);
         _clockwiseButton.SetActive(false);
         _anticlockwiseButton.SetActive(false);
+        //_wifiServer.SetActive(false);
     }
 
     public void OnToggle_View()
@@ -76,6 +81,19 @@ public class Selector : MonoBehaviour
         }
 
     }
+
+    public void OnToggle_Wifi()
+    {
+        if (_toggleWifi.GetComponent<Toggle>().isOn == true)
+        {
+            _wifiServer.SetActive(true);
+        }
+        else
+        {
+            _wifiServer.SetActive(false);
+        }
+    }
+
 
     public void OnToggle_Uneven()
     {

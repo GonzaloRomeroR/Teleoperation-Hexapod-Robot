@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Canvas\Selector.cs" />
     <Compile Include="Assets\Scripts\Canvas\UploadJoints.cs" />
     <Compile Include="Assets\Scripts\Canvas\UploadPlatform.cs" />
+    <Compile Include="Assets\Scripts\Communications\WifiServer.cs" />
     <Compile Include="Assets\Scripts\Global.cs" />
     <Compile Include="Assets\Scripts\Joystick Pack\Examples\JoystickPlayerExample.cs" />
     <Compile Include="Assets\Scripts\Joystick Pack\Examples\JoystickSetterExample.cs" />

@@ -1,5 +1,6 @@
 from tkinter import *
 from functools import partial
+import math
 
 ARTICULATION_NUMBER = 18
 
@@ -29,6 +30,10 @@ class GUI():
         value = self.txt_platform_variables[plat_var_number].get()
         print(value)
 
+    def walking_action(self):
+        value = self.txt_walk.get()
+        print (float(value) * math.pi / 180)
+        self.gl.walking_input(float(value) * math.pi / 180)
         
 
     def show_interface(self):
@@ -42,7 +47,30 @@ class GUI():
         row_number = self.create_platform_inputs(row_number)
         row_number = self.create_joints_titles(row_number)
         row_number = self.create_joints_inputs(row_number)
-    
+        row_number = self.create_walking_input(row_number)
+
+
+
+
+    def create_walking_input(self, row_number):
+        
+
+
+        lbl_walk = Label(self.window, text="Walk", font=("Arial Bold", 15))
+        lbl_walk.grid(sticky="W", column=0, row=row_number)
+        row_number = row_number + 1
+
+        btn = Button(self.window, text="Walk", command=self.walking_action)
+        btn.grid(column=0, row=row_number)
+
+
+
+        self.txt_walk = Entry(self.window, width=10)
+        self.txt_walk.grid(column=1, row=row_number)
+
+        row_number = row_number + 1
+        return row_number
+
     def create_platform_inputs(self, row_number):     
 
         lbl_platform = Label(self.window, text="Platform", font=("Arial Bold", 15))
@@ -159,7 +187,7 @@ class GUI():
                 self.lbl_joint_variables.append(Label(self.window, text=str(counter_row), font=("Arial", 12)))
                 self.lbl_joint_variables[counter_row - 1].grid(column=0, row=row_number + counter_row -1)
 
-        return row_number
+        return row_number + counter_row
 
             
 
