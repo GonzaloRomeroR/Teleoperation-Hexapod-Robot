@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
     <Compile Include="Assets\Scripts\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
     <Compile Include="Assets\Scripts\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
+    <Compile Include="Assets\Scripts\Legs\GetForce.cs" />
     <Compile Include="Assets\Scripts\Legs\JointCoxaMovement.cs" />
     <Compile Include="Assets\Scripts\Legs\JointFemurMovement.cs" />
     <Compile Include="Assets\Scripts\Legs\JointTibiaMovement.cs" />

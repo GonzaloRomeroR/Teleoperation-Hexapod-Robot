@@ -151,12 +151,12 @@ public class JointTibiaMovement : MonoBehaviour
             if (_t[_legNumber] > 1.0f)
             {
 
-                if (_legNumber % 2 == 0 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 2)
+                if (_legNumber % 2 == 0 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 4)
                 {
                     _values[_legNumber][_counter[_legNumber]] = Global.Instance.legs[_legNumber][2];
                 }
 
-                if (_legNumber % 2 == 1 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 4)
+                if (_legNumber % 2 == 1 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 2)
                 {
                     _values[_legNumber][_counter[_legNumber]] = Global.Instance.legs[_legNumber][2];
                 }
@@ -175,12 +175,12 @@ public class JointTibiaMovement : MonoBehaviour
                 return;
             }
 
-            if (_legNumber%2 == 0 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 2)
+            if (_legNumber%2 == 0 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 4)
             {
                 return;
             }
 
-            if (_legNumber % 2 == 1 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 4)
+            if (_legNumber % 2 == 1 && Global.Instance.legsContact[_legNumber] && _counter[_legNumber] == 2)
             {
                 return;
             }

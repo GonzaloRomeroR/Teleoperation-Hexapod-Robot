@@ -79,14 +79,15 @@ public class RobotMovement : MonoBehaviour
         {
             float[] lx = { x0, x0 + dx / 2, x0 + dx / 2, x0, x0 };
             float[] ly = { y0, y0 + dy / 2, y0 + dy / 2, y0, y0 };
-            float[] lz = { z0, z0 + h, z0 - h / 3 , z0, z0 };
+            float[] lz = { z0, z0, z0, z0 + h, z0 - h / 3 };
+ 
             return new float[][] { lx, ly, lz };
         }
         else
         {
             float[] lx = { x0, x0 - dx / 2, x0 - dx / 2, x0, x0 };
             float[] ly = { y0, y0 - dy / 2, y0 - dy / 2, y0, y0 };
-            float[] lz = { z0, z0, z0, z0 + h, z0 - h / 3 };
+            float[] lz = { z0, z0 + h, z0 - h / 3, z0, z0 };
             return new float[][] { lx, ly, lz };
         }
 

@@ -52,6 +52,8 @@ public class Global : MonoBehaviour
 
     public bool rotationDirection = true;
 
+    public int planner_steps = 0;
+    public float planner_angle = 0;
 
     private float X = 0;
     private float Y = 0;
@@ -60,6 +62,9 @@ public class Global : MonoBehaviour
     private float Roll = 0;
     private float Pitch = 0;
     private float Yaw = 0;
+
+    private float coordinateX = 0;
+    private float coordinateY = 0;
 
 
     JointCoxaMovement coxa;
@@ -90,6 +95,7 @@ public class Global : MonoBehaviour
         tibia = tibias.GetComponent<JointTibiaMovement>();
 
         _wifiServer = GameObject.Find("WifiServer");
+
     }
 
 
@@ -206,6 +212,26 @@ public class Global : MonoBehaviour
         }
     }
 
+
+    public void OnSetInput_Coordinates(TMP_InputField input)
+    {
+        if (input.name == "InputX")
+        {
+            coordinateX = float.Parse(input.text);
+
+        }
+        if (input.name == "InputY")
+        {
+            coordinateY = float.Parse(input.text);
+
+        }
+    }
+
+    public void SetCartesianPosition()
+    {
+        MoveRobotTo(coordinateX, coordinateY);
+    }
+
     public void OnSetInput_PlatformVariables(TMP_InputField input)
     {
         if(input.name == "InputYaw")
@@ -234,18 +260,37 @@ public class Global : MonoBehaviour
         }
     }
 
-        private void Update()
+    public void MoveRobotTo(float X, float Y)
+    {
+        planner_angle = (float)Math.Atan2(Y, X);
+        float module = (float)Math.Pow(Math.Pow(X, 2) + Math.Pow(Y, 2), 0.5);
+        planner_steps = (int)(module / stepDistance);
+    }
+
+    private void Update()
     {
         
-
         if (robotMove.joystick.isActiveAndEnabled)
         {
             if (robotMove.GetJoystickInputModule() > 0.8)
             {
                 if (coxa.IsFinished() && femur.IsFinished() && tibia.IsFinished())
                 {
+                    planner_steps = 0;
                     Walk(robotMove.GetJoystickInputAngle());
                     
+                }
+            }
+            else
+            {
+                if (planner_steps > 0)
+                {
+                    if (coxa.IsFinished() && femur.IsFinished() && tibia.IsFinished())
+                    {
+                        Walk(planner_angle);
+                        planner_steps--;
+
+                    }
                 }
             }
         }
