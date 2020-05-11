@@ -52,6 +52,9 @@ public class Global : MonoBehaviour
 
     public bool rotationDirection = true;
 
+    public float walkAmplitude = 0;
+    public float walkHigh = 0;
+
     public int planner_steps = 0;
     public float planner_angle = 0;
 
@@ -65,6 +68,8 @@ public class Global : MonoBehaviour
 
     private float coordinateX = 0;
     private float coordinateY = 0;
+
+
 
 
     JointCoxaMovement coxa;
@@ -323,20 +328,38 @@ public class Global : MonoBehaviour
             float[][] cartesian;
             if (i % 2 == 0)
             {
-                cartesian = robotMove.GetWalkingCycleUneven(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, increments[0], increments[1], true);
+                cartesian = robotMove.GetWalkingCycleUneven(robotMove.l1 + robotMove.l2 + walkAmplitude, 0, -robotMove.l3 - walkHigh, stepHigh, increments[0], increments[1], true);
             }
             else
             {
-                cartesian = robotMove.GetWalkingCycleUneven(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, increments[0], increments[1], false);
+                cartesian = robotMove.GetWalkingCycleUneven(robotMove.l1 + robotMove.l2 + walkAmplitude, 0, -robotMove.l3 - walkHigh, stepHigh, increments[0], increments[1], false);
             }
 
             float[][] jointsEven = robotMove.GetJointsWalkingCycleUneven(cartesian[0], cartesian[1], cartesian[2], i);
 
+            bool notNan = true;
 
+            for (int j = 0; j < jointsEven.Length; j++)
+            {
+                for (int k = 0; k < jointsEven[j].Length; k++)
+                {
+                    if (float.IsNaN(jointsEven[j][k])){
+                        notNan = false;
+                    }
 
-            coxa.SetTrajectoryCoxa(jointsEven[0], timers, i);
-            femur.SetTrajectoryFemur(jointsEven[1], timers, i);
-            tibia.SetTrajectoryTibia(jointsEven[2], timers, i);
+                }
+            }
+            if (notNan)
+            {
+                coxa.SetTrajectoryCoxa(jointsEven[0], timers, i);
+                femur.SetTrajectoryFemur(jointsEven[1], timers, i);
+                tibia.SetTrajectoryTibia(jointsEven[2], timers, i);
+            }
+            else
+            {
+                print("Imposible to move, invalid commands");
+            }
+
         }
     }
 
@@ -351,20 +374,40 @@ public class Global : MonoBehaviour
             float[][] cartesian;
             if (i % 2 == 0)
             {
-                cartesian = robotMove.GetWalkingCycle(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, increments[0], increments[1], true);
+                cartesian = robotMove.GetWalkingCycle(robotMove.l1 + robotMove.l2 + walkAmplitude, 0, -robotMove.l3 - walkHigh, stepHigh, increments[0], increments[1], true);
             }
             else
             {
-                cartesian = robotMove.GetWalkingCycle(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, increments[0], increments[1], false);
+                cartesian = robotMove.GetWalkingCycle(robotMove.l1 + robotMove.l2 + walkAmplitude, 0, -robotMove.l3 - walkHigh, stepHigh, increments[0], increments[1], false);
             }
 
             float[][] jointsEven = robotMove.GetJointsWalkingCycle(cartesian[0], cartesian[1], cartesian[2]);
 
 
+            bool notNan = true;
 
-            coxa.SetTrajectoryCoxa(jointsEven[0], timers, i);
-            femur.SetTrajectoryFemur(jointsEven[1], timers, i);
-            tibia.SetTrajectoryTibia(jointsEven[2], timers, i);
+            for (int j = 0; j < jointsEven.Length; j++)
+            {
+                for (int k = 0; k < jointsEven[j].Length; k++)
+                {
+                    if (float.IsNaN(jointsEven[j][k]))
+                    {
+                        notNan = false;
+                    }
+
+                }
+            }
+            if (notNan)
+            {
+                coxa.SetTrajectoryCoxa(jointsEven[0], timers, i);
+                femur.SetTrajectoryFemur(jointsEven[1], timers, i);
+                tibia.SetTrajectoryTibia(jointsEven[2], timers, i);
+            }
+            else
+            {
+                print("Imposible to move, invalid commands");
+            }
+
         }
     }
 
@@ -379,12 +422,31 @@ public class Global : MonoBehaviour
         //{
         //    print(angles[i][0].ToString() + ", " + angles[i][1].ToString() + "," + angles[i][1].ToString());
         //}
+        bool notNan = true;
 
-            for (int i = 0; i < 6; i++)
+        for (int j = 0; j < angles.Length; j++)
         {
-            coxa.SetTrajectoryCoxa(new float[] { angles[i][0] }, new float[] { 1 }, i);
-            femur.SetTrajectoryFemur(new float[] { angles[i][1] }, new float[] { 1 }, i);
-            tibia.SetTrajectoryTibia(new float[] { angles[i][2] }, new float[] { 1 }, i);
+            for (int k = 0; k < angles[j].Length; k++)
+            {
+                if (float.IsNaN(angles[j][k]))
+                {
+                    notNan = false;
+                }
+
+            }
+        }
+        if (notNan)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                coxa.SetTrajectoryCoxa(new float[] { angles[i][0] }, new float[] { 1 }, i);
+                femur.SetTrajectoryFemur(new float[] { angles[i][1] }, new float[] { 1 }, i);
+                tibia.SetTrajectoryTibia(new float[] { angles[i][2] }, new float[] { 1 }, i);
+            }
+        }
+        else
+        {
+            print("Commands impossible to reach");
         }
     }
 
@@ -410,18 +472,38 @@ public class Global : MonoBehaviour
             float[][] cartesian;
             if (i % 2 == 0)
             {
-                cartesian = robotMove.GetRotateCycle(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, direction, rotateStep, true);
+                cartesian = robotMove.GetRotateCycle(robotMove.l1 + robotMove.l2 + walkAmplitude, 0, -robotMove.l3 - walkHigh, stepHigh, direction, rotateStep, true);
             }
             else
             {
-                cartesian = robotMove.GetRotateCycle(robotMove.l1 + robotMove.l2, 0, -robotMove.l3, stepHigh, direction, rotateStep, false);
+                cartesian = robotMove.GetRotateCycle(robotMove.l1 + robotMove.l2 + walkAmplitude, 0, -robotMove.l3 - walkHigh, stepHigh, direction, rotateStep, false);
             }
 
             float[][] jointsEven = robotMove.GetJointsWalkingCycle(cartesian[0], cartesian[1], cartesian[2]);
 
-            coxa.SetTrajectoryCoxa(jointsEven[0], timers, i);
-            femur.SetTrajectoryFemur(jointsEven[1], timers, i);
-            tibia.SetTrajectoryTibia(jointsEven[2], timers, i);
+            bool notNan = true;
+
+            for (int j = 0; j < jointsEven.Length; j++)
+            {
+                for (int k = 0; k < jointsEven[j].Length; k++)
+                {
+                    if (float.IsNaN(jointsEven[j][k]))
+                    {
+                        notNan = false;
+                    }
+
+                }
+            }
+            if (notNan)
+            {
+                coxa.SetTrajectoryCoxa(jointsEven[0], timers, i);
+                femur.SetTrajectoryFemur(jointsEven[1], timers, i);
+                tibia.SetTrajectoryTibia(jointsEven[2], timers, i);
+            }
+            else
+            {
+                print("Commands impossible to reach");
+            }
         }
 
     }
