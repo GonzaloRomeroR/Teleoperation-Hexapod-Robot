@@ -1,4 +1,4 @@
-import numpy as np 
+import numpy as np
 from robot_movement import RobotMovement
 
 robotMovement = RobotMovement()
@@ -80,7 +80,7 @@ class Global():
             [ 0.0, 0.0, 0.0 ],
             [ 0.0, 0.0, 0.0 ]
         ]
-        
+
         self.counter = [
             [ 0, 0, 0 ],
             [ 0, 0, 0 ],
@@ -99,7 +99,7 @@ class Global():
             [ False, False, False ]
         ]
 
-        
+
         self.commands = [
             [ 0, 0, 0 ],
             [ 0, 0, 0 ],
@@ -114,9 +114,9 @@ class Global():
             return False
         else:
             return True
-        
+
     def set_joint_trajectory(self, values, times, row, col):
-        
+
         if self.finished[row][col] == True:
             self.last_value[row][col] = self.commands[row][col]
             self.times[row][col] = times
@@ -125,7 +125,7 @@ class Global():
             self.finished[row][col] = False
             self.t[row][col] = 0.0
 
-    
+
 
     def walking_input(self, direction):
         if self.walk_finished():

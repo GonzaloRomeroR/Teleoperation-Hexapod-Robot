@@ -9,7 +9,7 @@ class RobotMovement():
 
         dX = dL * math.cos(direction)
         dY = dL * math.sin(direction)
-        
+
         dx = dX * math.cos(alpha + math.pi / 3.0 * leg) + dY * math.sin(alpha + math.pi / 3.0 * leg)
         dy = dY * math.cos(alpha + math.pi / 3.0 * leg) - dX * math.sin(alpha + math.pi / 3.0 * leg)
 
@@ -30,7 +30,7 @@ class RobotMovement():
 
 
     def get_joints_walking_cycle(self, lx, ly, lz, l1, l2, l3):
-        
+
         trajectories = []
         for i in range(len(lx)):
             trajectories.append(robotMath.leg_inverse_kinematics(lx[i], ly[i], lz[i], l1, l2, l3))
@@ -43,5 +43,5 @@ class RobotMovement():
             theta1.append(trajectories[i][0])
             theta2.append(trajectories[i][1])
             theta3.append(trajectories[i][2])
-        
+
         return [theta1, theta2, theta3]

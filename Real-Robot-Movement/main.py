@@ -7,11 +7,11 @@ import GUI
 import servo_thread as st
 from wifi import WifiClient
 
-TIMER_TIME = 0.1
+TIMER_TIME = 0.01
 ARTICULATION_NUMBER = 18
 
 
-WIFI = True
+WIFI = False
 
 gl = Global()
 start_time = time.time()
@@ -25,7 +25,6 @@ def main():
         gl.timers[i].start()
 
     st.ServoSetter(gl).start()
-    
     if WIFI == True:
         WifiClient(gl)
     else:

@@ -15,7 +15,6 @@ class GUI():
         self.art_number = 18
         self.window = window
         self.show_interface()
-        
 
     def action(self, joint_number):
 
@@ -25,7 +24,6 @@ class GUI():
         self.gl.set_joint_trajectory([float(value)], [1.0], row, col)
 
     def platform_action(self, plat_var_number):
-        
         print(plat_var_number)
         value = self.txt_platform_variables[plat_var_number].get()
         print(value)
@@ -34,7 +32,6 @@ class GUI():
         value = self.txt_walk.get()
         print (float(value) * math.pi / 180)
         self.gl.walking_input(float(value) * math.pi / 180)
-        
 
     def show_interface(self):
 
@@ -49,11 +46,7 @@ class GUI():
         row_number = self.create_joints_inputs(row_number)
         row_number = self.create_walking_input(row_number)
 
-
-
-
     def create_walking_input(self, row_number):
-        
 
 
         lbl_walk = Label(self.window, text="Walk", font=("Arial Bold", 15))
@@ -71,13 +64,11 @@ class GUI():
         row_number = row_number + 1
         return row_number
 
-    def create_platform_inputs(self, row_number):     
-
+    def create_platform_inputs(self, row_number):
         lbl_platform = Label(self.window, text="Platform", font=("Arial Bold", 15))
         lbl_platform.grid(sticky="W", column=0, row=row_number)
         row_number = row_number + 1
 
-        
         lbl_x = Label(self.window, text="X", font=("Arial", 12))
         lbl_x.grid(column=1, row=row_number)
 
@@ -100,7 +91,6 @@ class GUI():
             counter_column = counter_column + 1
         row_number = row_number + 1
 
-        
         lbl_x = Label(self.window, text="Roll", font=("Arial", 12))
         lbl_x.grid(column=1, row=row_number)
 
@@ -133,7 +123,6 @@ class GUI():
 
 
     def create_joints_titles(self, row_number):
-        
         lbl_joints = Label(self.window, text="Joints", font=("Arial Bold", 15))
         lbl_joints.grid(sticky="W", column=0, row=row_number)
         row_number = row_number + 1
@@ -155,15 +144,12 @@ class GUI():
         counter_row = 0
         counter_column = 0
         for i in range(ARTICULATION_NUMBER):
-            
             if joint_number == i:
                 return counter_row, counter_column
-            
             counter_column = counter_column + 1
             if counter_column == 3:
                 counter_column = 0
                 counter_row = counter_row + 1
-        
 
     def create_joints_inputs(self, row_number):
 
@@ -171,7 +157,6 @@ class GUI():
         counter_column = 1
 
         for i in range(self.art_number):
-            
             self.txt_joint_variables.append(Entry(self.window, width=10))
             self.txt_joint_variables[i].grid(column=counter_column, row=row_number+counter_row)
             counter_column = counter_column + 1
@@ -188,8 +173,6 @@ class GUI():
                 self.lbl_joint_variables[counter_row - 1].grid(column=0, row=row_number + counter_row -1)
 
         return row_number + counter_row
-
-            
 
 def runGUI(gl):
     window = Tk()
