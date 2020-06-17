@@ -24,9 +24,9 @@ class GUI():
         self.gl.set_joint_trajectory([float(value)], [1.0], row, col)
 
     def platform_action(self, plat_var_number):
-        print(plat_var_number)
         value = self.txt_platform_variables[plat_var_number].get()
-        print(value)
+        self.gl.platform_variables[plat_var_number] = float(value)
+        self.gl.platform_movement()
 
     def walking_action(self):
         value = self.txt_walk.get()

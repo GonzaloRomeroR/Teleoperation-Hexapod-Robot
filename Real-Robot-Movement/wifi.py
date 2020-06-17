@@ -4,7 +4,7 @@ PORT = 8080
 
 
 class WifiClient():
-    
+
     def __init__(self, gl):
         self.gl = gl
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -16,7 +16,7 @@ class WifiClient():
                     s.sendall(b"Checking connection")
                     data = s.recv(12)
                     self.command_interpreter(data.decode("utf-8"))
-                    
+
                 except:
                     print("Reconnecting")
                     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -25,7 +25,7 @@ class WifiClient():
                     except:
                         print("Connection not posible")
 
-    
+
     def command_interpreter(self, data):
         if data[1] == 'J':
             end_index = 0
