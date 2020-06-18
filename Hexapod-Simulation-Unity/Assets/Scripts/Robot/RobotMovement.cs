@@ -94,8 +94,6 @@ public class RobotMovement : MonoBehaviour
     }
 
 
-
-
     public float[][] GetRotateCycle(float x0, float y0, float z0, float h, bool direction, float da, bool even)
     {
         float lxx = l1 + l2;  // FIX THIS, PLATFORM RADIUS

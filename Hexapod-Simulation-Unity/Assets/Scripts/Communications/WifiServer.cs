@@ -60,7 +60,7 @@ public class WifiServer : MonoBehaviour
     string CreateChain(string tag, int value)
     {
         string my_chain = ":" + tag + value.ToString();
-        while (my_chain.Length < 10)
+        while (my_chain.Length < 20)
         {
             my_chain = my_chain + "=";
         }
@@ -78,7 +78,7 @@ public class WifiServer : MonoBehaviour
         {
             Console.WriteLine(e);
         }
-
+  
     }
 
 }

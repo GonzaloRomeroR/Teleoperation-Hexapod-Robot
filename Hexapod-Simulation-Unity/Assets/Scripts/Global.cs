@@ -413,6 +413,11 @@ public class Global : MonoBehaviour
 
     public void SetPlatformLocation()
     {
+        if (_wifiServer != null)
+        {
+            string tag = "P" + X.ToString() + "," + Y.ToString() + "," + Z.ToString() + "," + ((int)(Roll * 180f / (float) Math.PI)).ToString() + "," + ((int)(Pitch * 180f / (float)Math.PI)).ToString() + "," + ((int)(Yaw * 180f / (float)Math.PI)).ToString();
+            _wifiServer.GetComponent<WifiServer>().SendData(tag, 0);  // FIX THIS, THE ZERO IS USELESS
+        }
 
         float[][] angles = robotMath.PlatformInverseKinematics(X, Y, Z, Roll, 
             Pitch, Yaw, robotMove.l1 + robotMove.l2, 0,

@@ -30,8 +30,12 @@ class GUI():
 
     def walking_action(self):
         value = self.txt_walk.get()
-        print (float(value) * math.pi / 180)
         self.gl.walking_input(float(value) * math.pi / 180)
+
+    def rotation_action(self, direction):
+        #value = self.txt_walk.get()
+        self.gl.rotation_input(direction)
+        pass
 
     def show_interface(self):
 
@@ -45,6 +49,23 @@ class GUI():
         row_number = self.create_joints_titles(row_number)
         row_number = self.create_joints_inputs(row_number)
         row_number = self.create_walking_input(row_number)
+        row_number = self.create_rotation_input(row_number)
+
+
+    def create_rotation_input(self, row_number):
+    
+        lbl_rot = Label(self.window, text="Rotation", font=("Arial Bold", 15))
+        lbl_rot.grid(sticky="W", column=0, row=row_number)
+        row_number = row_number + 1
+
+        btn = Button(self.window, text="C", command=partial(self.rotation_action, True))
+        btn.grid(column=0, row=row_number)
+
+        btn = Button(self.window, text="CC", command=partial(self.rotation_action, False))
+        btn.grid(column=1, row=row_number)
+
+        row_number = row_number + 1
+        return row_number
 
     def create_walking_input(self, row_number):
 

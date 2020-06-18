@@ -29,6 +29,24 @@ class RobotMovement():
             return [lx, ly, lz]
 
 
+    def get_rotation_cycle(self, x0, y0, z0, h, direction, da, even, radius, l1, l2, l3):
+        
+        dp = ((l1 + l2) + radius) * math.tan(da * math.pi / 180.0)
+        if direction == False:
+            dp = -dp
+
+        if even:
+            lx = [x0, x0, x0, x0, x0 ]
+            ly = [y0, y0 + dp / 4.0, y0 + dp / 2.0, y0 + dp / 4.0, y0 ]
+            lz = [z0, z0, z0, z0 + h, z0]
+            return lx, ly, lz
+        else:
+            lx = [x0, x0, x0, x0, x0 ]
+            ly = [y0, y0 - dp / 4.0, y0 - dp / 2.0, y0 - dp / 4.0, y0 ]
+            lz = [z0, z0 + h, z0, z0, z0]
+            return [lx, ly, lz]            
+
+
     def get_joints_walking_cycle(self, lx, ly, lz, l1, l2, l3):
 
         trajectories = []

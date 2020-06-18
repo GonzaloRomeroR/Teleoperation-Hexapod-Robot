@@ -14,7 +14,7 @@ class WifiClient():
 
                 try:
                     s.sendall(b"Checking connection")
-                    data = s.recv(12)
+                    data = s.recv(22)
                     self.command_interpreter(data.decode("utf-8"))
 
                 except:
@@ -27,6 +27,9 @@ class WifiClient():
 
 
     def command_interpreter(self, data):
+
+        print(data)
+        
         if data[1] == 'J':
             end_index = 0
             for i in range(len(data)):
@@ -35,4 +38,16 @@ class WifiClient():
                     break
             value = int(data[4:end_index])
             self.gl.set_joint_trajectory([value] ,[1],int(data[2]), int(data[3]))
+
+        
+        if data[1] == 'P':
+            end_index = 0
+            for i in range(len(data)):
+                if data[i] == '=':
+                    end_index = i
+                    break
+            values = data[2:end_index-1].split(",")
+            for i in range(6):
+                self.gl.platform_variables[i] = int(values[i])
+            self.gl.platform_movement()
 
