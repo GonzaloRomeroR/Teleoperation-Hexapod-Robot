@@ -15,7 +15,7 @@ TIMER_TIME = 0.01
 ARTICULATION_NUMBER = 18
 
 
-WIFI = True
+WIFI = False
 
 start_time = time.time()
 
