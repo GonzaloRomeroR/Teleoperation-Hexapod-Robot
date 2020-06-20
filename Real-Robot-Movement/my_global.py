@@ -8,8 +8,9 @@ robotMath = RobotMath()
 class Global():
 
 
-    def __init__(self):
+    def __init__(self, commands):
 
+        self.commands = commands
         self.l1 = 28.5
         self.l2 = 75.5
         self.l3 = 129.8
@@ -114,16 +115,7 @@ class Global():
             [ False, False, False ],
             [ False, False, False ]
         ]
-
-
-        self.commands = [
-            [ 0, 0, -90 ],
-            [ 0, 0, -90 ],
-            [ 0, 0, -90 ],
-            [ 0, 0, -90 ],
-            [ 0, 0, -90 ],
-            [ 0, 0, -90 ]
-        ]
+        self.commands[4] = 20
 
         self.platform_variables = [0, 0, 0, 0, 0, 0]
 
@@ -131,10 +123,10 @@ class Global():
         return self.commands
 
     def set_commands(self, row, col, value):
-        self.commands[row][col] = value
+        self.commands[(row * 3) + col] = value
     
     def get_commands(self, row, col):
-        return self.commands[row][col]
+        return self.commands[(row * 3) + col]
         
     def set_finished(self, row, col, value):
         self.finished[row][col] = value
@@ -205,7 +197,7 @@ class Global():
     def set_joint_trajectory(self, values, times, row, col):
 
         if self.finished[row][col] == True:
-            self.last_value[row][col] = self.commands[row][col]
+            self.last_value[row][col] = self.commands[(row * 3) + col]
             self.times[row][col] = times
             self.values[row][col] = values
             self.counter[row][col] = 0
