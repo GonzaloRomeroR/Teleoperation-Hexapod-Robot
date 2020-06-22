@@ -25,8 +25,20 @@ def main():
 
     manager = Manager()
     commands = manager.list()
+    
     for i in range(18):
         commands.append(0)
+    
+    commands[2] = -90
+    commands[5] = -90
+    commands[8] = -90
+    commands[11] = -90
+    commands[14] = -90
+    commands[17] = -90
+
+
+
+
     gl = Global(commands)
 
     # Start timer

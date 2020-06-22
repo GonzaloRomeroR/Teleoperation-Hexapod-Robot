@@ -115,7 +115,6 @@ class Global():
             [ False, False, False ],
             [ False, False, False ]
         ]
-        self.commands[4] = 20
 
         self.platform_variables = [0, 0, 0, 0, 0, 0]
 

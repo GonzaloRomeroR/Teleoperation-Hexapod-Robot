@@ -2,7 +2,7 @@ from threading import Timer,Thread,Event
 import time
 import GUI
 
-DEBUG = True
+DEBUG = False
 TIMER = 0.01
 
 MAX_FREQUENCY = 2250
