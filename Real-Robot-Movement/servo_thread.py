@@ -35,8 +35,8 @@ def servo_run(commands):
 
     if DEBUG == False:
         for i in range(16):
-            kit.servo[i].set_pulse_width_range(min, max)
-            kit2.servo[i].set_pulse_width_range(min, max)
+            kit.servo[i].set_pulse_width_range(MIN_FREQUENCY, MAX_FREQUENCY)
+            kit2.servo[i].set_pulse_width_range(MIN_FREQUENCY, MAX_FREQUENCY)
 
 
     while 1:
