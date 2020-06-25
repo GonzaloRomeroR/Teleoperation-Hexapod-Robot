@@ -51,3 +51,39 @@ class WifiClient():
                 self.gl.platform_variables[i] = int(values[i])
             self.gl.platform_movement()
 
+
+        if data[1] == 'W':
+            end_index = 0
+            for i in range(len(data)):
+                if data[i] == '=':
+                    end_index = i
+                    break
+            value = int(data[2:end_index])
+            print(value)
+            self.gl.walk(value)
+
+
+        if data[1] == 'R':
+            end_index = 0
+            for i in range(len(data)):
+                if data[i] == '=':
+                    end_index = i
+                    break
+            value = int(data[2:end_index])
+            print(value)
+            self.gl.rotation(value)
+
+        if data[1] == 'C':
+            end_index = 0
+            for i in range(len(data)):
+                if data[i] == '=':
+                    end_index = i
+                    break
+            values = data[2:end_index-1].split(",")
+            print(values[0])
+            print(values[1])
+            #self.gl.move_to((int)values[0], (int)values[1])
+
+
+
+

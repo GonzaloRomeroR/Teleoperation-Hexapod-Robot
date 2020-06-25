@@ -15,7 +15,7 @@ TIMER_TIME = 0.01
 ARTICULATION_NUMBER = 18
 
 
-WIFI = False
+WIFI = True
 
 start_time = time.time()
 
@@ -37,6 +37,7 @@ def main():
         gl.timers[i].start()
 
     st.ServoSetter(gl).start()
+    
     if WIFI == True:
         WifiClient(gl)
     else:
