@@ -31,6 +31,15 @@ class MyTimer(Thread):
             self.timer_function()
 
     def timer_function(self):
+    
+        # if self.gl.planner_steps > 0:
+        #     if self.column == 0 and self.row == 0:
+        #         if self.gl.walk_finished():
+        #             self.gl.walking_input(self.gl.planner_angle)
+        #             print(self.gl.walk_finished())
+        #             print(self.gl.planner_steps)
+                    #self.gl.planner_steps = self.gl.planner_steps - 1
+
         row = self.row
         col = self.column
 

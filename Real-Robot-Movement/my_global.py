@@ -1,4 +1,5 @@
 import numpy as np
+import math
 from robot_movement import RobotMovement
 from robot_math import RobotMath
 
@@ -15,10 +16,15 @@ class Global():
         self.l2 = 75.5
         self.l3 = 129.8
 
+        self.planner_angle = 0
+        self.planner_steps = 0
+
         self.radius = self.l1 + self.l2
 
         self.step_distance = 120
         self.step_high = 60
+
+        self.velocity = 1.0
 
         self.rotate_step = 20
 
@@ -121,6 +127,19 @@ class Global():
     def get_all_commands(self):
         return self.commands
 
+    def set_rotation_step(self, value):
+        self.rotate_step = value
+
+    def set_step_distance(self, value):
+        self.step_distance = value
+
+    def set_velocity(self, value):
+        self.velocity = value
+
+    def set_step_height(self, value):
+        self.step_high = value
+            
+
     def set_commands(self, row, col, value):
         self.commands[(row * 3) + col] = value
     
@@ -187,11 +206,22 @@ class Global():
     def get_timers(self, index):
         return self.timers[index]
 
+    # def walk_finished(self):
+    #     if False in self.finished:
+    #         return False
+    #     else:
+    #         return True
+
     def walk_finished(self):
-        if False in self.finished:
-            return False
-        else:
-            return True
+        for i in range(6):
+            if False in self.finished[i]:
+                return False
+        return True
+
+    def set_robot_movement(self, X, Y):
+        self.planner_angle = math.atan2(Y, X)
+        module = (Y ** 2 + X ** 2) ** 0.5
+        self.planner_steps = int(module / self.step_distance)
 
     def set_joint_trajectory(self, values, times, row, col):
 
@@ -209,13 +239,15 @@ class Global():
         if self.walk_finished():
             self.walk(direction)
 
+
     def rotation_input(self, direction):
         if self.walk_finished():
             self.rotation(direction)
 
 
     def walk(self, direction):
-        times = [1.0, 1.0, 1.0, 1.0, 1.0]
+        times = [0.1, 1.0, 1.0, 1.0, 1.0]
+        times = [x / self.velocity for x in times]
 
         for i in range(6):
             dx, dy = robotMovement.get_walking_increments(self.step_distance, 0, direction, i)
@@ -244,10 +276,10 @@ class Global():
 
 
     def rotation(self, direction):
-        times = [1.0, 1.0, 1.0, 1.0, 1.0]
+        times = [0.1, 1.0, 1.0, 1.0, 1.0]
+        times = [x / self.velocity for x in times]
 
         for i in range(6):
-            dx, dy = robotMovement.get_walking_increments(self.step_distance, 0, direction, i)
             cartesian = []
             if i % 2 == 0:
                 cartesian = robotMovement.get_rotation_cycle(self.l1 + self.l2, 0, -self.l3, self.step_high, direction,\

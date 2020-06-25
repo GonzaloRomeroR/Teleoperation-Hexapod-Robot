@@ -1,5 +1,6 @@
 from threading import Timer,Thread,Event
 import my_timer as tm
+import planner_timer as ptm
 from my_global import Global
 import numpy as np
 import time
@@ -12,6 +13,7 @@ import multiprocessing
 
 
 TIMER_TIME = 0.01
+PLANNER_TIME = 0.4
 ARTICULATION_NUMBER = 18
 
 
@@ -46,6 +48,10 @@ def main():
     for i in range(18):
         gl.timers.append(tm.MyTimer(stop_flag, TIMER_TIME, gl, i))
         gl.timers[i].start()
+    
+    plan_timer = ptm.PlannerTimer(stop_flag, PLANNER_TIME, gl)
+    plan_timer.start()
+    
 
     p = Process(target=servo_run, args=(commands,))
     p.start()

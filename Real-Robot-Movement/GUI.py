@@ -12,6 +12,7 @@ class GUI():
         self.lbl_joint_variables = []
         self.txt_joint_variables = []
         self.txt_platform_variables = []
+        self.txt_position_variables = []
         self.art_number = 18
         self.window = window
         self.show_interface()
@@ -36,21 +37,73 @@ class GUI():
         #value = self.txt_walk.get()
         self.gl.rotation_input(direction)
         pass
+    
+    def move_action(self):
+        X = self.txt_position_variables[0].get()
+        Y = self.txt_position_variables[1].get()
+        self.gl.set_robot_movement(int(X), int(Y))
+
+    def rotation_step_action(self):
+        value = int(self.txt_rotation_step.get())
+        self.gl.set_rotation_step(value)
+
+
+    def step_height_action(self):
+        value = int(self.txt_step_height.get())
+        self.gl.set_step_height(value)
+
+    def step_distance_action(self):
+        value = int(self.txt_step_distance.get())
+        self.gl.set_step_distance(value)
+
+    def velocity_action(self):
+        value = float(self.txt_velocity.get())
+        self.gl.set_velocity(value)
+
+
 
     def show_interface(self):
 
         row_number = 0
 
-        lbl_platform = Label(self.window, text="Hexapod View", font=("Arial Bold", 15))
-        lbl_platform.grid(column=0, row=row_number)
-        row_number = row_number + 1
+        # lbl_platform = Label(self.window, text="Hexapod View", font=("Arial Bold", 15))
+        # lbl_platform.grid(column=0, row=row_number)
+        # row_number = row_number + 1
 
         row_number = self.create_platform_inputs(row_number)
         row_number = self.create_joints_titles(row_number)
         row_number = self.create_joints_inputs(row_number)
         row_number = self.create_walking_input(row_number)
         row_number = self.create_rotation_input(row_number)
+        row_number = self.create_position_input(row_number)
+        row_number = self.create_parameters_inputs(row_number)
+    
+    
+    def create_position_input(self, row_number):
+    
+        lbl_rot = Label(self.window, text="Position", font=("Arial Bold", 15))
+        lbl_rot.grid(sticky="W", column=0, row=row_number)
+        row_number = row_number + 1
 
+        lbl_x = Label(self.window, text="X", font=("Arial", 12))
+        lbl_x.grid(column=1, row=row_number)
+
+        lbl_y = Label(self.window, text="Y", font=("Arial", 12))
+        lbl_y.grid(column=2, row=row_number)
+        row_number = row_number + 1
+
+        counter_column = 1
+        for i in range(2):
+
+            self.txt_position_variables.append(Entry(self.window, width=10))
+            self.txt_position_variables[i].grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+
+        btn = Button(self.window, text="Move", command=self.move_action)
+        btn.grid(column=counter_column, row=row_number)
+        row_number = row_number + 1
+        
+        return row_number
 
     def create_rotation_input(self, row_number):
     
@@ -59,10 +112,10 @@ class GUI():
         row_number = row_number + 1
 
         btn = Button(self.window, text="C", command=partial(self.rotation_action, True))
-        btn.grid(column=0, row=row_number)
+        btn.grid(column=1, row=row_number)
 
         btn = Button(self.window, text="CC", command=partial(self.rotation_action, False))
-        btn.grid(column=1, row=row_number)
+        btn.grid(column=2, row=row_number)
 
         row_number = row_number + 1
         return row_number
@@ -75,12 +128,12 @@ class GUI():
         row_number = row_number + 1
 
         btn = Button(self.window, text="Walk", command=self.walking_action)
-        btn.grid(column=0, row=row_number)
+        btn.grid(column=1, row=row_number)
 
 
 
         self.txt_walk = Entry(self.window, width=10)
-        self.txt_walk.grid(column=1, row=row_number)
+        self.txt_walk.grid(column=2, row=row_number)
 
         row_number = row_number + 1
         return row_number
@@ -134,14 +187,74 @@ class GUI():
             btn.grid(column=counter_column, row=row_number)
             counter_column = counter_column + 1
         row_number = row_number + 1
-
-
-
-
         return row_number
 
 
+    def create_parameters_inputs(self, row_number):
 
+            lbl_platform = Label(self.window, text="Parameters", font=("Arial Bold", 15))
+            lbl_platform.grid(sticky="W", column=0, row=row_number)
+            row_number = row_number + 1
+
+            lbl_x = Label(self.window, text="Vel(1[])", font=("Arial", 12))
+            lbl_x.grid(column=1, row=row_number)
+
+
+            lbl_z = Label(self.window, text="S_D(120[mm])", font=("Arial", 12))
+            lbl_z.grid(column=3, row=row_number)
+            row_number = row_number + 1
+
+            counter_column = 1
+            
+
+            self.txt_velocity = Entry(self.window, width=10)
+            self.txt_velocity.grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+
+            btn = Button(self.window, text="Update", command=self.velocity_action)
+            btn.grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+
+            self.txt_step_distance = Entry(self.window, width=10)
+            self.txt_step_distance.grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+
+            btn = Button(self.window, text="Update", command=self.step_distance_action)
+            btn.grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+
+            row_number = row_number + 1
+
+            lbl_x = Label(self.window, text="S_H(60[mm])", font=("Arial", 12))
+            lbl_x.grid(column=1, row=row_number)
+
+            lbl_y = Label(self.window, text="R_S(20[°])", font=("Arial", 12))
+            lbl_y.grid(column=3, row=row_number)
+
+            row_number = row_number + 1
+
+            
+            counter_column = 1
+
+            self.txt_step_height = Entry(self.window, width=10)
+            self.txt_step_height.grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+
+            btn = Button(self.window, text="Update", command=self.step_height_action)
+            btn.grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+
+            self.txt_rotation_step = Entry(self.window, width=10)
+            self.txt_rotation_step.grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+
+            btn = Button(self.window, text="Update", command=self.rotation_step_action)
+            btn.grid(column=counter_column, row=row_number)
+            counter_column = counter_column + 1
+            
+        
+            row_number = row_number + 1
+            return row_number
 
     def create_joints_titles(self, row_number):
         lbl_joints = Label(self.window, text="Joints", font=("Arial Bold", 15))
@@ -199,5 +312,5 @@ def runGUI(gl):
     window = Tk()
     window.title("Hexapod View")
     GUI(window, gl)
-    window.geometry('600x500')
+    window.geometry('700x700')
     window.mainloop()
