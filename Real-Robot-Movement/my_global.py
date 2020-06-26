@@ -7,6 +7,11 @@ robotMovement = RobotMovement()
 robotMath = RobotMath()
 
 class Global():
+    """
+    Class that stores all the global variables and methods 
+    in order to make the robot move.
+
+    """
 
 
     def __init__(self, commands):
@@ -31,15 +36,6 @@ class Global():
 
         self.timers = []
         
-        """         self.timers = [
-             None, None, None,
-             None, None, None,
-             None, None, None,
-             None, None, None,
-             None, None, None,
-             None, None, None
-        ] """
-
 
         self.values = [
             [ [0.0],[0.0],[-90.0] ],
@@ -276,6 +272,7 @@ class Global():
 
 
     def rotation(self, direction):
+
         times = [0.1, 1.0, 1.0, 1.0, 1.0]
         times = [x / self.velocity for x in times]
 

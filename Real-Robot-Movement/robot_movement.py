@@ -4,6 +4,10 @@ from robot_math import RobotMath
 robotMath = RobotMath()
 
 class RobotMovement():
+    """
+    Class that stores the methods related with the legs trajectories planner.
+    
+    """
 
     def get_walking_increments(self, dL, alpha, direction, leg):
 

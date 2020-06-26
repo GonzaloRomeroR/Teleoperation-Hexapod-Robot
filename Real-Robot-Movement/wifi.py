@@ -4,6 +4,9 @@ PORT = 8080
 
 
 class WifiClient():
+    """
+    Class to manage the wifi communication with the server
+    """
 
     def __init__(self, gl):
         self.gl = gl
@@ -80,9 +83,56 @@ class WifiClient():
                     end_index = i
                     break
             values = data[2:end_index-1].split(",")
-            print(values[0])
-            print(values[1])
-            #self.gl.move_to((int)values[0], (int)values[1])
+
+            print("#######################")
+            print(int(values[0]))
+            print(int(values[1]))
+            print(self.gl.step_distance)
+            self.gl.set_robot_movement(int(values[0]), int(values[1]))
+
+        if data[1] == 'V':
+            end_index = 0
+            for i in range(len(data)):
+                if data[i] == '=':
+                    end_index = i
+                    break
+            value = float(data[2:end_index-1])
+            print(value)
+            self.gl.set_velocity(value)
+
+        if data[1] == 'D':
+            end_index = 0
+            for i in range(len(data)):
+                if data[i] == '=':
+                    end_index = i
+                    break
+            value = int(data[2:end_index])
+            print(value)
+            self.gl.set_step_distance(value)
+
+        if data[1] == 'H':
+            end_index = 0
+            for i in range(len(data)):
+                if data[i] == '=':
+                    end_index = i
+                    break
+            value = int(data[2:end_index])
+            print(value)
+            self.gl.set_step_height(value)
+
+        if data[1] == 'S':
+            end_index = 0
+            for i in range(len(data)):
+                if data[i] == '=':
+                    end_index = i
+                    break
+            value = int(data[2:end_index])
+            print(value)
+            self.gl.set_rotation_step(value)
+
+
+        
+        
 
 
 

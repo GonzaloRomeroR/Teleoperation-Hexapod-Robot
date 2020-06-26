@@ -2,6 +2,11 @@ import math
 import numpy as np
 
 class RobotMath():
+    """
+    Class that provides the methods to calculate the kinematics of the robot.
+    Inverse kinematics of the robot and platform are provided.
+
+    """
 
     def leg_inverse_kinematics(self, x, y, z, l1, l2, l3):
 

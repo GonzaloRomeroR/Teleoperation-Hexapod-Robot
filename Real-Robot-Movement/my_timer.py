@@ -4,6 +4,14 @@ ARTICULATION_NUMBER = 18
 
 
 class MyTimer(Thread):
+    """
+    Timers related with each joint. They perform a linear interpolation between
+    a intial and final position each time they are called.
+
+    Args:
+        Thread ([class]): [Thread class]
+    """
+
     def __init__(self, event, seconds, gl, joint_number):
         self.stopped = event
         self.seconds = seconds
@@ -31,14 +39,7 @@ class MyTimer(Thread):
             self.timer_function()
 
     def timer_function(self):
-    
-        # if self.gl.planner_steps > 0:
-        #     if self.column == 0 and self.row == 0:
-        #         if self.gl.walk_finished():
-        #             self.gl.walking_input(self.gl.planner_angle)
-        #             print(self.gl.walk_finished())
-        #             print(self.gl.planner_steps)
-                    #self.gl.planner_steps = self.gl.planner_steps - 1
+        
 
         row = self.row
         col = self.column

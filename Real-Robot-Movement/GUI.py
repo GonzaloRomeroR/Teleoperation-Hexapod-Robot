@@ -6,6 +6,10 @@ ARTICULATION_NUMBER = 18
 
 class GUI():
 
+    """
+    Class that manage the graphical user interface of the robot.
+    """
+
     def __init__(self, window, gl):
 
         self.gl = gl

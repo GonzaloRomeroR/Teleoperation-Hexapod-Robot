@@ -69,6 +69,14 @@ public class Global : MonoBehaviour
     private float coordinateX = 0;
     private float coordinateY = 0;
 
+    private float velocity = 1.0f;
+
+    private float auxStepDistance;
+    private float auxStepHigh;
+    private float auxVelocity;
+    private float auxRotationStep;
+
+
 
 
 
@@ -121,6 +129,13 @@ public class Global : MonoBehaviour
             {
                 Rotate(rotationDirection);
 
+                if (_wifiServer != null)
+                {
+                    string tag = "R";
+                    int data = 1;
+                    _wifiServer.GetComponent<WifiServer>().SendData(tag, data);
+                }
+
             }
         }
     }
@@ -134,7 +149,14 @@ public class Global : MonoBehaviour
                 {
                     Rotate(rotationDirection);
 
-                }
+                    if (_wifiServer != null)
+                    {
+                        string tag = "R";
+                        int data = 0;
+                        _wifiServer.GetComponent<WifiServer>().SendData(tag, data);
+                    }
+
+            }
         }
     }
 
@@ -232,8 +254,84 @@ public class Global : MonoBehaviour
         }
     }
 
+    public void OnSetInput_StepDistance(TMP_InputField input)
+    {     
+        auxStepDistance = float.Parse(input.text);
+
+    }
+
+    public void OnSetInput_RotationStep(TMP_InputField input)
+    {
+        auxRotationStep = float.Parse(input.text);
+
+    }
+
+    public void OnSetInput_Velocity(TMP_InputField input)
+    {
+        auxVelocity = float.Parse(input.text);
+
+    }
+
+
+    public void OnSetInput_StepHigh(TMP_InputField input)
+    {
+        auxStepHigh = float.Parse(input.text);
+
+    }
+
+
+    public void SetVelocity()
+    {
+        
+        velocity = auxVelocity;
+
+        if (_wifiServer != null)
+        {
+            string tag = "V" + velocity.ToString();
+            _wifiServer.GetComponent<WifiServer>().SendData(tag, 0);
+        }
+    }
+
+    public void SetStepHigh()
+    {
+        stepHigh = auxStepHigh;
+
+        if (_wifiServer != null)
+        {
+            string tag = "H";
+            _wifiServer.GetComponent<WifiServer>().SendData(tag, (int)stepHigh);
+        }
+    }
+
+    public void SetStepDistance()
+    {
+        stepDistance = auxStepDistance;
+        if (_wifiServer != null)
+        {
+            string tag = "D";
+            _wifiServer.GetComponent<WifiServer>().SendData(tag, (int)stepDistance);
+        }
+    }
+
+    public void SetRotationStep()
+    {
+        rotateStep = auxRotationStep;
+        if (_wifiServer != null)
+        {
+            string tag = "S";
+            _wifiServer.GetComponent<WifiServer>().SendData(tag, (int)rotateStep);
+        }
+    }
+
+
     public void SetCartesianPosition()
     {
+        if (_wifiServer != null)
+        {
+            string tag = "C" + coordinateX.ToString() + "," + coordinateY.ToString();
+            _wifiServer.GetComponent<WifiServer>().SendData(tag, 0); 
+        }
+
         MoveRobotTo(coordinateX, coordinateY);
     }
 
@@ -283,7 +381,14 @@ public class Global : MonoBehaviour
                 {
                     planner_steps = 0;
                     Walk(robotMove.GetJoystickInputAngle());
-                    
+
+                    if (_wifiServer != null)
+                    {
+                        string tag = "W";
+                        int data = (int)(robotMove.GetJoystickInputAngle() * 180f / (float)Math.PI);
+                        _wifiServer.GetComponent<WifiServer>().SendData(tag, data);
+                    }
+
                 }
             }
             else
@@ -309,6 +414,8 @@ public class Global : MonoBehaviour
         {
             WalkEven(direction);
 
+
+
         }
         else
         {
@@ -320,7 +427,7 @@ public class Global : MonoBehaviour
 
     private void WalkUneven(float direction)
     {
-        float[] timers = { 0.001f, 1, 2, 1, 2 };
+        float[] timers = { 0.001f, 1 / velocity, 2 /velocity, 1 / velocity, 2 / velocity };
 
         for (int i = 0; i < 6; i++)
         {
@@ -366,7 +473,7 @@ public class Global : MonoBehaviour
 
     private void WalkEven(float direction)
     {
-        float[] timers = { 0.001f, 1, 1, 1, 1 };
+        float[] timers = { 0.001f, 1 / velocity, 1 / velocity, 1 / velocity, 1 / velocity };
 
         for (int i = 0; i < 6; i++)
         {
@@ -470,7 +577,7 @@ public class Global : MonoBehaviour
 
     public void Rotate(bool direction)
     {
-        float[] timers = { 0.01f, 1, 1, 1, 1 };
+        float[] timers = { 0.01f, 1 / velocity, 1 / velocity, 1 / velocity, 1 / velocity };
 
         for (int i = 0; i < 6; i++)
         {

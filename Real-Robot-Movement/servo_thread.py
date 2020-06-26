@@ -18,6 +18,12 @@ MIN_FREQUENCY = 450
 
 
 def servo_run(commands):
+    """
+    Function that write the joint commands in the I2C bus in order to move the robot
+
+    Args:
+        commands ([list]): [Shared list between processes that stores the 18 joint commands]
+    """
     if DEBUG == False:
         from adafruit_servokit import ServoKit
         kit = ServoKit(channels = 16)

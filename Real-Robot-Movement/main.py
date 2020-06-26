@@ -13,11 +13,11 @@ import multiprocessing
 
 
 TIMER_TIME = 0.01
-PLANNER_TIME = 0.4
+PLANNER_TIME = 0.2
 ARTICULATION_NUMBER = 18
 
 
-WIFI = False
+WIFI = True
 
 start_time = time.time()
 
