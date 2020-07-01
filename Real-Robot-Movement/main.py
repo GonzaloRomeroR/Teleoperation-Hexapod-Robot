@@ -1,11 +1,11 @@
 from threading import Timer,Thread,Event
-import my_timer as tm
+import joint_timer as tm
 import planner_timer as ptm
 from my_global import Global
 import numpy as np
 import time
 import GUI
-from servo_thread import servo_run
+from servo_process import servo_run
 from wifi import WifiClient
 from multiprocessing import Process, Manager
 from multiprocessing.managers import BaseManager
@@ -17,7 +17,7 @@ PLANNER_TIME = 0.2
 ARTICULATION_NUMBER = 18
 
 
-WIFI = True
+WIFI = False
 
 start_time = time.time()
 
