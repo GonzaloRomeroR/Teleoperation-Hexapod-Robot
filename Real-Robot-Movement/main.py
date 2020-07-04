@@ -17,7 +17,7 @@ PLANNER_TIME = 0.2
 ARTICULATION_NUMBER = 18
 
 
-WIFI = True
+WIFI = False
 
 start_time = time.time()
 

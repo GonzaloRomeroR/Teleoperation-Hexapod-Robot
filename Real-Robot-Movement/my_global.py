@@ -27,7 +27,7 @@ class Global():
         self.radius = self.l1 + self.l2
 
         self.step_distance = 120
-        self.step_high = 60
+        self.step_high = 40
 
         self.velocity = 1.0
 
