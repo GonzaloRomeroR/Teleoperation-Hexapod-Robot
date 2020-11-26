@@ -377,17 +377,19 @@ public class Global : MonoBehaviour
         {
             if (robotMove.GetJoystickInputModule() > 0.8)
             {
+
+                if (_wifiServer != null)
+                {
+                    string tag = "W";
+                    int data = (int)(robotMove.GetJoystickInputAngle() * 180f / (float)Math.PI);
+                    _wifiServer.GetComponent<WifiServer>().SendData(tag, data);
+                }
+
                 if (coxa.IsFinished() && femur.IsFinished() && tibia.IsFinished())
                 {
                     planner_steps = 0;
                     Walk(robotMove.GetJoystickInputAngle());
 
-                    if (_wifiServer != null)
-                    {
-                        string tag = "W";
-                        int data = (int)(robotMove.GetJoystickInputAngle() * 180f / (float)Math.PI);
-                        _wifiServer.GetComponent<WifiServer>().SendData(tag, data);
-                    }
 
                 }
             }
