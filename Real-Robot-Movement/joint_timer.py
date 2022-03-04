@@ -1,4 +1,4 @@
-from threading import Timer,Thread,Event
+from threading import Timer, Thread, Event
 
 ARTICULATION_NUMBER = 18
 
@@ -19,7 +19,6 @@ class MyTimer(Thread):
         self.row, self.column = self.get_list_index(joint_number)
         Thread.__init__(self)
 
-
     def get_list_index(self, joint_number):
         counter_row = 0
         counter_column = 0
@@ -33,13 +32,11 @@ class MyTimer(Thread):
                 counter_column = 0
                 counter_row = counter_row + 1
 
-
     def run(self):
         while not self.stopped.wait(self.seconds):
             self.timer_function()
 
     def timer_function(self):
-        
 
         row = self.row
         col = self.column
@@ -49,11 +46,20 @@ class MyTimer(Thread):
             if self.gl.counter[row][col] == 0:
                 self.gl.minimum[row][col] = self.gl.last_value[row][col]
             else:
-                self.gl.minimum[row][col] = self.gl.values[row][col][self.gl.counter[row][col] - 1]
+                self.gl.minimum[row][col] = self.gl.values[row][col][
+                    self.gl.counter[row][col] - 1
+                ]
 
-            self.gl.maximum[row][col] = self.gl.values[row][col][self.gl.counter[row][col]]
-            self.gl.value[row][col] = (self.gl.maximum[row][col] - self.gl.minimum[row][col]) * self.gl.t[row][col] + self.gl.minimum[row][col]
-            self.gl.t[row][col] = self.gl.t[row][col] + 1 / self.gl.times[row][col][self.gl.counter[row][col]] * self.seconds
+            self.gl.maximum[row][col] = self.gl.values[row][col][
+                self.gl.counter[row][col]
+            ]
+            self.gl.value[row][col] = (
+                self.gl.maximum[row][col] - self.gl.minimum[row][col]
+            ) * self.gl.t[row][col] + self.gl.minimum[row][col]
+            self.gl.t[row][col] = (
+                self.gl.t[row][col]
+                + 1 / self.gl.times[row][col][self.gl.counter[row][col]] * self.seconds
+            )
 
             if self.gl.t[row][col] > 1.0:
                 self.gl.counter[row][col] = self.gl.counter[row][col] + 1

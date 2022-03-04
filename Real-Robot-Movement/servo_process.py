@@ -1,4 +1,4 @@
-from threading import Timer,Thread,Event
+from threading import Timer, Thread, Event
 
 import time
 import GUI
@@ -17,6 +17,7 @@ MIN_FREQUENCY = 500
 MAX_FREQUENCY = 2550
 MIN_FREQUENCY = 450
 
+
 def servo_run(commands):
 
     """
@@ -27,8 +28,9 @@ def servo_run(commands):
 
     if DEBUG == False:
         from adafruit_servokit import ServoKit
-        kit = ServoKit(channels = 16)
-        kit2 = ServoKit(channels = 16, address = 0x41)
+
+        kit = ServoKit(channels=16)
+        kit2 = ServoKit(channels=16, address=0x41)
 
     offsets = [
         [138, 80, 30],
@@ -36,7 +38,7 @@ def servo_run(commands):
         [100, 69, 38],
         [127, 72, 40],
         [142, 75, 35],
-        [98, 71, 40]
+        [98, 71, 40],
     ]
 
     min_coxa = -25
@@ -55,12 +57,12 @@ def servo_run(commands):
 
     while 1:
         if DEBUG == True:
-            #walking_input(0.0)
+            # walking_input(0.0)
             print(commands)
             time.sleep(TIMER)
 
         else:
-            #walking_input(0.0)
+            # walking_input(0.0)
             print(commands)
             try:
                 if commands[0] >= min_coxa and commands[0] <= max_coxa:
@@ -69,7 +71,7 @@ def servo_run(commands):
                     kit2.servo[1].angle = commands[1] + offsets[0][1]
                 if commands[2] >= min_tibia and commands[2] <= max_tibia:
                     kit2.servo[2].angle = -commands[2] + offsets[0][2]
-                
+
                 if commands[3] >= min_coxa and commands[3] <= max_coxa:
                     kit2.servo[3].angle = commands[3] + offsets[1][0]
                 if commands[4] >= min_femur and commands[4] <= max_femur:
@@ -108,6 +110,3 @@ def servo_run(commands):
             except:
 
                 print("I2C error")
-
-            
-

@@ -3,7 +3,8 @@ from robot_math import RobotMath
 
 robotMath = RobotMath()
 
-class RobotMovement():
+
+class RobotMovement:
     """
     Class that stores the methods related with the legs trajectories planner.
     
@@ -14,48 +15,53 @@ class RobotMovement():
         dX = dL * math.cos(direction)
         dY = dL * math.sin(direction)
 
-        dx = dX * math.cos(alpha + math.pi / 3.0 * leg) + dY * math.sin(alpha + math.pi / 3.0 * leg)
-        dy = dY * math.cos(alpha + math.pi / 3.0 * leg) - dX * math.sin(alpha + math.pi / 3.0 * leg)
+        dx = dX * math.cos(alpha + math.pi / 3.0 * leg) + dY * math.sin(
+            alpha + math.pi / 3.0 * leg
+        )
+        dy = dY * math.cos(alpha + math.pi / 3.0 * leg) - dX * math.sin(
+            alpha + math.pi / 3.0 * leg
+        )
 
         return dx, dy
 
-
     def get_walking_cycle(self, x0, y0, z0, h, dx, dy, even):
         if even:
-            lx = [x0, x0 + dx / 4.0, x0 + dx / 2.0, x0 + dx / 4.0, x0 ]
-            ly = [y0, y0 + dy / 4.0, y0 + dy / 2.0, y0 + dy / 4.0, y0 ]
+            lx = [x0, x0 + dx / 4.0, x0 + dx / 2.0, x0 + dx / 4.0, x0]
+            ly = [y0, y0 + dy / 4.0, y0 + dy / 2.0, y0 + dy / 4.0, y0]
             lz = [z0, z0, z0, z0 + h, z0]
             return lx, ly, lz
         else:
-            lx = [x0, x0 - dx / 4.0, x0 - dx / 2.0, x0 - dx / 4.0, x0 ]
-            ly = [y0, y0 - dy / 4.0, y0 - dy / 2.0, y0 - dy / 4.0, y0 ]
+            lx = [x0, x0 - dx / 4.0, x0 - dx / 2.0, x0 - dx / 4.0, x0]
+            ly = [y0, y0 - dy / 4.0, y0 - dy / 2.0, y0 - dy / 4.0, y0]
             lz = [z0, z0 + h, z0, z0, z0]
             return [lx, ly, lz]
 
+    def get_rotation_cycle(
+        self, x0, y0, z0, h, direction, da, even, radius, l1, l2, l3
+    ):
 
-    def get_rotation_cycle(self, x0, y0, z0, h, direction, da, even, radius, l1, l2, l3):
-        
         dp = ((l1 + l2) + radius) * math.tan(da * math.pi / 180.0)
         if direction == False:
             dp = -dp
 
         if even:
-            lx = [x0, x0, x0, x0, x0 ]
-            ly = [y0, y0 + dp / 4.0, y0 + dp / 2.0, y0 + dp / 4.0, y0 ]
+            lx = [x0, x0, x0, x0, x0]
+            ly = [y0, y0 + dp / 4.0, y0 + dp / 2.0, y0 + dp / 4.0, y0]
             lz = [z0, z0, z0, z0 + h, z0]
             return lx, ly, lz
         else:
-            lx = [x0, x0, x0, x0, x0 ]
-            ly = [y0, y0 - dp / 4.0, y0 - dp / 2.0, y0 - dp / 4.0, y0 ]
+            lx = [x0, x0, x0, x0, x0]
+            ly = [y0, y0 - dp / 4.0, y0 - dp / 2.0, y0 - dp / 4.0, y0]
             lz = [z0, z0 + h, z0, z0, z0]
-            return [lx, ly, lz]            
-
+            return [lx, ly, lz]
 
     def get_joints_walking_cycle(self, lx, ly, lz, l1, l2, l3):
 
         trajectories = []
         for i in range(len(lx)):
-            trajectories.append(robotMath.leg_inverse_kinematics(lx[i], ly[i], lz[i], l1, l2, l3))
+            trajectories.append(
+                robotMath.leg_inverse_kinematics(lx[i], ly[i], lz[i], l1, l2, l3)
+            )
 
         theta1 = []
         theta2 = []

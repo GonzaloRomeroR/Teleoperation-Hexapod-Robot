@@ -1,4 +1,4 @@
-from threading import Timer,Thread,Event
+from threading import Timer, Thread, Event
 import joint_timer as tm
 import planner_timer as ptm
 from my_global import Global
@@ -22,24 +22,20 @@ WIFI = True
 start_time = time.time()
 
 
-
 def main():
 
     manager = Manager()
     commands = manager.list()
-    
+
     for i in range(18):
         commands.append(0)
-    
+
     commands[2] = -90
     commands[5] = -90
     commands[8] = -90
     commands[11] = -90
     commands[14] = -90
     commands[17] = -90
-
-
-
 
     gl = Global(commands)
 
@@ -48,14 +44,12 @@ def main():
     for i in range(18):
         gl.timers.append(tm.MyTimer(stop_flag, TIMER_TIME, gl, i))
         gl.timers[i].start()
-    
+
     plan_timer = ptm.PlannerTimer(stop_flag, PLANNER_TIME, gl)
     plan_timer.start()
-    
 
     p = Process(target=servo_run, args=(commands,))
     p.start()
-    
 
     if WIFI == True:
         WifiClient(gl)
@@ -64,5 +58,5 @@ def main():
     p.join()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
