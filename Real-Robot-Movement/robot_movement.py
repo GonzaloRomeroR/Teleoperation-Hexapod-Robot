@@ -1,4 +1,5 @@
 import math
+
 from robot_math import RobotMath
 
 robotMath = RobotMath()
@@ -7,21 +8,18 @@ robotMath = RobotMath()
 class RobotMovement:
     """
     Class that stores the methods related with the legs trajectories planner.
-    
+
     """
 
     def get_walking_increments(self, dL, alpha, direction, leg):
-
         dX = dL * math.cos(direction)
         dY = dL * math.sin(direction)
-
         dx = dX * math.cos(alpha + math.pi / 3.0 * leg) + dY * math.sin(
             alpha + math.pi / 3.0 * leg
         )
         dy = dY * math.cos(alpha + math.pi / 3.0 * leg) - dX * math.sin(
             alpha + math.pi / 3.0 * leg
         )
-
         return dx, dy
 
     def get_walking_cycle(self, x0, y0, z0, h, dx, dy, even):
@@ -39,7 +37,6 @@ class RobotMovement:
     def get_rotation_cycle(
         self, x0, y0, z0, h, direction, da, even, radius, l1, l2, l3
     ):
-
         dp = ((l1 + l2) + radius) * math.tan(da * math.pi / 180.0)
         if direction == False:
             dp = -dp
@@ -56,7 +53,6 @@ class RobotMovement:
             return [lx, ly, lz]
 
     def get_joints_walking_cycle(self, lx, ly, lz, l1, l2, l3):
-
         trajectories = []
         for i in range(len(lx)):
             trajectories.append(

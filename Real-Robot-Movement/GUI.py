@@ -6,13 +6,18 @@ ARTICULATION_NUMBER = 18
 
 
 class GUI:
-
     """
     Class that manage the graphical user interface of the robot.
     """
 
     def __init__(self, window, gl):
+        """_summary_
 
+        :param window: Tkinter window
+        :type window:`Tk`
+        :param gl: object with global attributes
+        :type gl: `Global`
+        """
         self.gl = gl
         self.lbl_joint_variables = []
         self.txt_joint_variables = []
@@ -23,10 +28,8 @@ class GUI:
         self.show_interface()
 
     def action(self, joint_number):
-
         row, col = self.get_list_index(joint_number)
         value = self.txt_joint_variables[joint_number].get()
-        # if float(value) < 180 and float(value) > 0:
         self.gl.set_joint_trajectory([float(value)], [1.0], row, col)
 
     def platform_action(self, plat_var_number):
@@ -65,9 +68,7 @@ class GUI:
         self.gl.set_velocity(value)
 
     def show_interface(self):
-
         row_number = 0
-
         row_number = self.create_platform_inputs(row_number)
         row_number = self.create_joints_titles(row_number)
         row_number = self.create_joints_inputs(row_number)
@@ -77,7 +78,6 @@ class GUI:
         row_number = self.create_parameters_inputs(row_number)
 
     def create_position_input(self, row_number):
-
         lbl_rot = Label(self.window, text="Position", font=("Arial Bold", 15))
         lbl_rot.grid(sticky="W", column=0, row=row_number)
         row_number = row_number + 1
@@ -91,7 +91,6 @@ class GUI:
 
         counter_column = 1
         for i in range(2):
-
             self.txt_position_variables.append(Entry(self.window, width=10))
             self.txt_position_variables[i].grid(column=counter_column, row=row_number)
             counter_column = counter_column + 1
@@ -103,7 +102,6 @@ class GUI:
         return row_number
 
     def create_rotation_input(self, row_number):
-
         lbl_rot = Label(self.window, text="Rotation", font=("Arial Bold", 15))
         lbl_rot.grid(sticky="W", column=0, row=row_number)
         row_number = row_number + 1
@@ -120,7 +118,6 @@ class GUI:
         return row_number
 
     def create_walking_input(self, row_number):
-
         lbl_walk = Label(self.window, text="Walk", font=("Arial Bold", 15))
         lbl_walk.grid(sticky="W", column=0, row=row_number)
         row_number = row_number + 1
@@ -191,7 +188,6 @@ class GUI:
         return row_number
 
     def create_parameters_inputs(self, row_number):
-
         lbl_platform = Label(self.window, text="Parameters", font=("Arial Bold", 15))
         lbl_platform.grid(sticky="W", column=0, row=row_number)
         row_number = row_number + 1
@@ -280,7 +276,6 @@ class GUI:
                 counter_row = counter_row + 1
 
     def create_joints_inputs(self, row_number):
-
         counter_row = 0
         counter_column = 1
 
@@ -310,6 +305,12 @@ class GUI:
 
 
 def runGUI(gl):
+    """
+    Run GUI
+
+    :param gl: object with global variables
+    :type gl: `Global`
+    """
     window = Tk()
     window.title("Hexapod View")
     GUI(window, gl)

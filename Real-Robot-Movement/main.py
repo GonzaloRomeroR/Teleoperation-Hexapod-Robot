@@ -1,16 +1,17 @@
-from threading import Timer, Thread, Event
+import multiprocessing
+import time
+from multiprocessing import Manager, Process
+from multiprocessing.managers import BaseManager
+from threading import Event, Thread, Timer
+
+import numpy as np
+
+import GUI
 import joint_timer as tm
 import planner_timer as ptm
 from my_global import Global
-import numpy as np
-import time
-import GUI
 from servo_process import servo_run
 from wifi import WifiClient
-from multiprocessing import Process, Manager
-from multiprocessing.managers import BaseManager
-import multiprocessing
-
 
 TIMER_TIME = 0.01
 PLANNER_TIME = 0.2
@@ -23,10 +24,8 @@ start_time = time.time()
 
 
 def main():
-
     manager = Manager()
     commands = manager.list()
-
     for i in range(18):
         commands.append(0)
 

@@ -22,7 +22,6 @@ class WifiClient:
                     s.sendall(b"Checking connection")
                     data = s.recv(22)
                     self.command_interpreter(data.decode("utf-8"))
-
                 except:
                     print("Reconnecting")
                     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -32,9 +31,7 @@ class WifiClient:
                         print("Connection not posible")
 
     def command_interpreter(self, data):
-
         print(data)
-
         if data[1] == "J":
             end_index = 0
             for i in range(len(data)):

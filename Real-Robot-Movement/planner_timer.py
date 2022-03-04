@@ -1,4 +1,4 @@
-from threading import Timer, Thread, Event
+from threading import Event, Thread, Timer
 
 ARTICULATION_NUMBER = 18
 
@@ -11,7 +11,6 @@ class PlannerTimer(Thread):
     Args:
         Thread ([class]): [Thread class]
     """
-
     def __init__(self, event, seconds, gl):
         self.seconds = seconds
         self.stopped = event
@@ -23,7 +22,6 @@ class PlannerTimer(Thread):
             self.timer_function()
 
     def timer_function(self):
-
         if self.gl.planner_steps > 0:
             if self.gl.walk_finished():
                 self.gl.planner_steps = self.gl.planner_steps - 1

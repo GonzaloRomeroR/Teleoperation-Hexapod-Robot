@@ -1,7 +1,9 @@
-import numpy as np
 import math
-from robot_movement import RobotMovement
+
+import numpy as np
+
 from robot_math import RobotMath
+from robot_movement import RobotMovement
 
 robotMovement = RobotMovement()
 robotMath = RobotMath()
@@ -9,30 +11,22 @@ robotMath = RobotMath()
 
 class Global:
     """
-    Class that stores all the global variables and methods 
+    Class that stores all the global variables and methods
     in order to make the robot move.
-
     """
 
     def __init__(self, commands):
-
         self.commands = commands
         self.l1 = 28.5
         self.l2 = 75.5
         self.l3 = 129.8
-
         self.planner_angle = 0
         self.planner_steps = 0
-
         self.radius = self.l1 + self.l2
-
         self.step_distance = 120
         self.step_high = 60
-
         self.velocity = 1.0
-
         self.rotate_step = 20
-
         self.timers = []
 
         self.values = [
@@ -199,12 +193,6 @@ class Global:
     def get_timers(self, index):
         return self.timers[index]
 
-    # def walk_finished(self):
-    #     if False in self.finished:
-    #         return False
-    #     else:
-    #         return True
-
     def walk_finished(self):
         for i in range(6):
             if False in self.finished[i]:
@@ -213,11 +201,10 @@ class Global:
 
     def set_robot_movement(self, X, Y):
         self.planner_angle = math.atan2(Y, X)
-        module = (Y ** 2 + X ** 2) ** 0.5
+        module = (Y**2 + X**2) ** 0.5
         self.planner_steps = int(module / self.step_distance)
 
     def set_joint_trajectory(self, values, times, row, col):
-
         if self.finished[row][col] == True:
             self.last_value[row][col] = self.commands[(row * 3) + col]
             self.times[row][col] = times
@@ -283,7 +270,6 @@ class Global:
             self.set_joint_trajectory([angles[i][2]], [1], i, 2)
 
     def rotation(self, direction):
-
         times = [0.1, 1.0, 1.0, 1.0, 1.0]
         times = [x / self.velocity for x in times]
 
@@ -321,7 +307,6 @@ class Global:
             joints = robotMovement.get_joints_walking_cycle(
                 cartesian[0], cartesian[1], cartesian[2], self.l1, self.l2, self.l3
             )
-
             self.set_joint_trajectory(joints[0], times, i, 0)
             self.set_joint_trajectory(joints[1], times, i, 1)
             self.set_joint_trajectory(joints[2], times, i, 2)

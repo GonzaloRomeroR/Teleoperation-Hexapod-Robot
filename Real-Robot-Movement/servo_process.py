@@ -1,6 +1,6 @@
-from threading import Timer, Thread, Event
-
 import time
+from threading import Event, Thread, Timer
+
 import GUI
 
 DEBUG = False
@@ -19,13 +19,11 @@ MIN_FREQUENCY = 450
 
 
 def servo_run(commands):
-
     """
     Function that write the joint commands in the I2C bus in order to move the robot
     Args:
         commands ([list]): [Shared list between processes that stores the 18 joint commands]
     """
-
     if DEBUG == False:
         from adafruit_servokit import ServoKit
 
@@ -106,7 +104,5 @@ def servo_run(commands):
                     kit2.servo[7].angle = commands[16] + offsets[5][1]
                 if commands[17] >= min_tibia and commands[17] <= max_tibia:
                     kit2.servo[8].angle = -commands[17] + offsets[5][2]
-
             except:
-
                 print("I2C error")

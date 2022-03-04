@@ -1,4 +1,4 @@
-from threading import Timer, Thread, Event
+from threading import Event, Thread, Timer
 
 ARTICULATION_NUMBER = 18
 
@@ -11,7 +11,6 @@ class MyTimer(Thread):
     Args:
         Thread ([class]): [Thread class]
     """
-
     def __init__(self, event, seconds, gl, joint_number):
         self.stopped = event
         self.seconds = seconds
@@ -37,12 +36,10 @@ class MyTimer(Thread):
             self.timer_function()
 
     def timer_function(self):
-
         row = self.row
         col = self.column
 
         if self.gl.counter[row][col] < len(self.gl.values[row][col]):
-
             if self.gl.counter[row][col] == 0:
                 self.gl.minimum[row][col] = self.gl.last_value[row][col]
             else:
@@ -60,7 +57,6 @@ class MyTimer(Thread):
                 self.gl.t[row][col]
                 + 1 / self.gl.times[row][col][self.gl.counter[row][col]] * self.seconds
             )
-
             if self.gl.t[row][col] > 1.0:
                 self.gl.counter[row][col] = self.gl.counter[row][col] + 1
                 if self.gl.counter[row][col] == len(self.gl.values[row][col]):

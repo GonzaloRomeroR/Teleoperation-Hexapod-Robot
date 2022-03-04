@@ -1,4 +1,5 @@
 import math
+
 import numpy as np
 
 
@@ -10,12 +11,9 @@ class RobotMath:
     """
 
     def leg_inverse_kinematics(self, x, y, z, l1, l2, l3):
-
         theta1 = math.atan2(y, x)
-
         x0 = x - l1 * math.cos(theta1)
         y0 = y - l1 * math.sin(theta1)
-
         p2 = x0 ** 2 + y0 ** 2 + z ** 2
 
         theta2 = math.acos(
@@ -27,7 +25,6 @@ class RobotMath:
         theta1 = theta1 * 180.0 / math.pi
         theta2 = theta2 * 180.0 / math.pi
         theta3 = theta3 * 180.0 / math.pi
-
         return [theta1, theta2, theta3]
 
     def platform_inverse_kinematics(
@@ -37,11 +34,8 @@ class RobotMath:
         roll = roll * math.pi / 180.0
         pitch = pitch * math.pi / 180.0
         yaw = yaw * math.pi / 180.0
-
         angles = [[0, 0, 0] for i in range(6)]
-
         O = np.transpose(np.array([x, y, z]))
-
         R = np.array(
             [
                 [
@@ -98,7 +92,6 @@ class RobotMath:
         )
 
         S1 = np.transpose(S1)
-
         U = np.array(
             [
                 [
@@ -134,12 +127,10 @@ class RobotMath:
             ]
         )
         U = np.transpose(U)
-
         L = np.zeros((3, 6))
         alpha = np.zeros((1, 6))
         beta = np.zeros((1, 6))
         gamma = np.zeros((1, 6))
-
         S2 = np.zeros((3, 6))
         LPV = np.zeros((3, 6))
         LP = np.zeros((1, 6))
@@ -169,15 +160,12 @@ class RobotMath:
         for i in range(6):
             alpha[0, i] = alpha[0, i] + increment
             increment = increment - math.pi / 3.0
-
         for i in range(6):
             angles[i][0] = alpha[0, i] * 180.0 / math.pi
             if angles[i][0] > 90:
                 angles[i][0] = angles[i][0] - 180
-
             if angles[i][0] < -90:
                 angles[i][0] = angles[i][0] + 180
-
             angles[i][1] = beta[0, i] * 180.0 / math.pi
             angles[i][2] = gamma[0, i] * 180.0 / math.pi - 360
 
