@@ -16,8 +16,6 @@ from wifi import WifiClient
 TIMER_TIME = 0.01
 PLANNER_TIME = 0.2
 ARTICULATION_NUMBER = 18
-
-
 WIFI = True
 
 start_time = time.time()
